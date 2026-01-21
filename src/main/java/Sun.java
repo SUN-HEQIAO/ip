@@ -55,6 +55,15 @@ public class Sun {
                     System.out.println("Now you have " + tasks.size() + " tasks in the list.");
                     break;
 
+                case "deadline":
+                    String description = String.join(" ", copyOfRange(inputs, 1, inputs.length));
+                    Task todoTask = new Todo(description);
+                    tasks.add(todoTask);
+                    System.out.println("Got it. I've added this task:");
+                    System.out.println(todoTask);
+                    System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+                    break;
+
                 default:
                     tasks.add(new Task(input));
                     System.out.println("added: " + input);
