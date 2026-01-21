@@ -42,6 +42,7 @@ public class Sun {
         System.out.println("Bye. Hope to see you again soon!");
     }
 
+
     //Starter Motor
     private static void processInputs(String input, ArrayList<Task> tasks)
             throws InvalidCommandException, InvalidTodoException,
@@ -86,6 +87,7 @@ public class Sun {
         }
     }
 
+
     // Helper Methods
     private static void goThroughList(ArrayList<Task> tasks) {
         for (int i = 0; i < tasks.size(); i++) {
@@ -95,24 +97,7 @@ public class Sun {
 
     private static void handleMark(ArrayList<Task> tasks, String rest, boolean isDone)
             throws InvalidTaskNumberException {
-        // No task number specified
-        if (rest.isEmpty()) {
-            throw new InvalidTaskNumberException(" OOPS!!! Task number missing.");
-        }
-
-        // Task number is not numerical
-        int index;
-        try {
-            index = Integer.parseInt(rest) - 1;
-        } catch (NumberFormatException e) {
-            throw new InvalidTaskNumberException("OOPS!!! Please enter a valid numerical task number.");
-        }
-
-        // Task number is out of range
-        if (index < 0 || index >= tasks.size()) {
-            throw new InvalidTaskNumberException("OOPS!!! Task number out of range.");
-        }
-
+        int index = parseTaskNumber(tasks.size(), rest);
         Task targetTask = tasks.get(index);
         targetTask.setIsDone(isDone);
         System.out.println(isDone ? "Nice! I've marked this task as done:"
@@ -129,7 +114,9 @@ public class Sun {
     private static void handleTodo(ArrayList<Task> tasks, String rest)
             throws InvalidTodoException {
         // todoTask with no description
-        if (rest.isEmpty()) throw new InvalidTodoException("OOPS!!! The description of a todo cannot be empty.");
+        if (rest.isEmpty()) {
+            throw new InvalidTodoException("OOPS!!! The description of a todo cannot be empty.");
+        }
 
         Task todoTask = new Todo(rest);
         tasks.add(todoTask);
@@ -176,13 +163,37 @@ public class Sun {
         printTaskAdded(eventTask, tasks.size());
     }
 
-    private static void handleDeletion(ArrayList<Task> tasks, String rest) {
-        int index = Integer.parseInt(rest) - 1;
+    private static void handleDeletion(ArrayList<Task> tasks, String rest)
+            throws InvalidTaskNumberException {
+        int index = parseTaskNumber(tasks.size(), rest);
         Task targetTask = tasks.get(index);
         tasks.remove(index);
         System.out.println("Noted. I've removed this task:");
         System.out.println(targetTask);
         System.out.println(String.format("Now you have %d tasks left", tasks.size()));
 
+    }
+
+    private static int parseTaskNumber(int tasksCount, String rest)
+            throws InvalidTaskNumberException {
+        // No Task Number
+        if (rest.isEmpty()) {
+            throw new InvalidTaskNumberException("OOPS!!! Task number missing.");
+        }
+
+        // Task Number not numerical
+        int index;
+        try {
+            index = Integer.parseInt(rest) - 1;
+        } catch (NumberFormatException e) {
+            throw new InvalidTaskNumberException("OOPS!!! Please enter a valid numerical task number.");
+        }
+
+        // Task Number out of range
+        if (index < 0 || index >= tasksCount) {
+            throw new InvalidTaskNumberException("OOPS!!! Task number out of range.");
+        }
+
+        return index;
     }
 }
