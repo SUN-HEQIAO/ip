@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import static java.util.Arrays.copyOfRange;
+
 public class Sun {
     public static void main(String[] args) {
         System.out.println("Hello! I'm Sun.");
@@ -23,6 +25,7 @@ public class Sun {
                     System.out.println("Here are the tasks in your list:");
                     goThroughList((tasks));
                     break;
+
                 case "mark":
                     if (inputs.length == 2) {
                         int index = Integer.parseInt(inputs[1]) - 1;
@@ -32,6 +35,7 @@ public class Sun {
                         System.out.println(targetTask);
                     }
                     break;
+
                 case "unmark":
                     if (inputs.length == 2) {
                         int index = Integer.parseInt(inputs[1]) - 1;
@@ -41,6 +45,16 @@ public class Sun {
                         System.out.println(targetTask);
                     }
                     break;
+
+                case "todo":
+                    String description = String.join(" ", copyOfRange(inputs, 1, inputs.length));
+                    Task todoTask = new Todo(description);
+                    tasks.add(todoTask);
+                    System.out.println("Got it. I've added this task:");
+                    System.out.println(todoTask);
+                    System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+                    break;
+
                 default:
                     tasks.add(new Task(input));
                     System.out.println("added: " + input);

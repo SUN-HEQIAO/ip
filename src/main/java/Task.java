@@ -23,6 +23,4 @@ public class Task {
     public String toString() {
         return String.format("[%s] %s", this.getIsDone(), this.getDescription());
     }
-
-
 }
