@@ -20,20 +20,25 @@ public class Sun {
 
             switch (command) {
                 case "list":
-                    goThroughList((tasks));;
+                    System.out.println("Here are the tasks in your list:");
+                    goThroughList((tasks));
                     break;
                 case "mark":
                     if (inputs.length == 2) {
                         int index = Integer.parseInt(inputs[1]) - 1;
-                        tasks.get(index).setIsDone(true);
-                        goThroughList(tasks);
+                        Task targetTask = tasks.get(index);
+                        targetTask.setIsDone(true);
+                        System.out.println("Nice! I've marked this task as done:");
+                        System.out.println(targetTask);
                     }
                     break;
                 case "unmark":
                     if (inputs.length == 2) {
                         int index = Integer.parseInt(inputs[1]) - 1;
-                        tasks.get(index).setIsDone(false);
-                        goThroughList(tasks);
+                        Task targetTask = tasks.get(index);
+                        targetTask.setIsDone(false);
+                        System.out.println("OK, I've marked this task as not done yet:");
+                        System.out.println(targetTask);
                     }
                     break;
                 default:
