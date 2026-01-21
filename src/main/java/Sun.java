@@ -77,6 +77,10 @@ public class Sun {
                 handleEvent(tasks, rest);
                 break;
 
+            case "delete":
+                handleDeletion(tasks, rest);
+                break;
+
             default:
                 throw new InvalidCommandException("OOPS!!! I'm sorry, but I don't know what that command means :-(");
         }
@@ -170,5 +174,15 @@ public class Sun {
         Task eventTask = new Event(description, from, to);
         tasks.add(eventTask);
         printTaskAdded(eventTask, tasks.size());
+    }
+
+    private static void handleDeletion(ArrayList<Task> tasks, String rest) {
+        int index = Integer.parseInt(rest) - 1;
+        Task targetTask = tasks.get(index);
+        tasks.remove(index);
+        System.out.println("Noted. I've removed this task:");
+        System.out.println(targetTask);
+        System.out.println(String.format("Now you have %d tasks left", tasks.size()));
+
     }
 }
