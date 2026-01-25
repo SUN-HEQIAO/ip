@@ -1,3 +1,5 @@
+import java.time.LocalDateTime;
+
 public abstract class Task {
     private String description;
     private boolean isDone;
@@ -39,18 +41,21 @@ public abstract class Task {
                 todo.setIsDone(isDone);;
                 return todo;
             case "D":
-                String by = parts[3];
-                Deadline deadline = new Deadline(description, by);
+                String byString = parts[3];
+                LocalDateTime byDateTime = DateParser.parse(byString);
+                Deadline deadline = new Deadline(description, byDateTime);
                 deadline.setIsDone(isDone);
                 return deadline;
             case "E":
-                String from = parts[3];
-                String to = parts[4];
-                Event event = new Event(description, from, to);
+                String fromString = parts[3];
+                String toString = parts[4];
+                LocalDateTime fromDateTime = DateParser.parse(fromString);
+                LocalDateTime toDateTime = DateParser.parse(toString);
+                Event event = new Event(description, fromDateTime, toDateTime);
                 event.setIsDone(isDone);
                 return event;
             default:
-                throw new IllegalArgumentException("Unknown task type: " + type);
+                throw new IllegalArgumentException("OOPS!!! Unknown task type: " + type);
         }
     }
 }

@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Scanner;
 
 public class Sun {
@@ -48,7 +49,7 @@ public class Sun {
                 processInputs(input, tasks, storage);
             } catch (InvalidCommandException | InvalidTaskNumberException |
                      InvalidTodoException | InvalidDeadlineException |
-                     InvalidEventException | IOException e) {
+                     InvalidEventException | IOException | IllegalArgumentException e) {
                 System.out.println(e.getMessage());
             }
 
@@ -61,7 +62,7 @@ public class Sun {
     //Starter Motor
     private static void processInputs(String input, TaskList tasks, Storage storage)
             throws InvalidCommandException, InvalidTodoException, InvalidDeadlineException, InvalidEventException,
-            InvalidTaskNumberException, IOException {
+            InvalidTaskNumberException, IOException, IllegalArgumentException {
 
         // Only split into 2 parts first
         String[] inputs = input.split(" ", 2);
@@ -155,8 +156,9 @@ public class Sun {
         }
 
         String description = parts[0];
-        String by = parts[1];
-        Task deadlineTask = new Deadline(description, by);
+        String byString = parts[1];
+        LocalDateTime byDateTime = DateParser.parse(byString);
+        Task deadlineTask = new Deadline(description, byDateTime);
         tasks.add(deadlineTask);
         printTaskAdded(deadlineTask, tasks.size());
     }
@@ -177,10 +179,11 @@ public class Sun {
         if (fromSplit.length < 2 || fromSplit[0].isEmpty() || fromSplit[1].isEmpty())
             throw new InvalidEventException("OOPS!!! The start or end time of an event cannot be empty.");
 
-        String from = fromSplit[0];
-        String to = fromSplit[1];
-
-        Task eventTask = new Event(description, from, to);
+        String fromString = fromSplit[0];
+        String toString = fromSplit[1];
+        LocalDateTime fromDateTime = DateParser.parse(fromString);
+        LocalDateTime toDateTime = DateParser.parse(toString);
+        Task eventTask = new Event(description, fromDateTime, toDateTime);
         tasks.add(eventTask);
         printTaskAdded(eventTask, tasks.size());
     }

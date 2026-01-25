@@ -10,9 +10,13 @@ public class Storage {
     }
 
     // IOException != File not exist / File is empty
+    // IOException happens when scanner tries to scan
 
     public ArrayList<Task> load() throws IOException {
         ArrayList<Task> tasks = new ArrayList<>();
+
+        // Points to where the file should be, NOT the file itself
+        // Does NOT open the file & Does NOT read it & Does NOT create the file
         File file = new File(filePath);
 
         // Return empty list of Task if file does not exist
@@ -29,8 +33,11 @@ public class Storage {
         return tasks;
     }
 
+    // IOException when writing fails
     public void save(TaskList tasks) throws IOException {
         File file = new File(filePath);
+
+        // Does NOT guarantee that the folder exist, it just points to the path
         File parent = file.getParentFile();
 
         //"parent != null" just means there is a folder in the filePath String
@@ -39,6 +46,7 @@ public class Storage {
             parent.mkdirs();
         }
 
+        // FileWriter creates the file if it doesn't exist, else, it overwrites the file
         try (FileWriter writer = new FileWriter(filePath)) {
             for (Task task : tasks.getAll()) {
                 writer.write(task.toFileString());
