@@ -49,7 +49,7 @@ public class Sun {
                 processInputs(input, tasks, storage);
             } catch (InvalidCommandException | InvalidTaskNumberException |
                      InvalidTodoException | InvalidDeadlineException |
-                     InvalidEventException | IOException e) {
+                     InvalidEventException | IOException | IllegalArgumentException e) {
                 System.out.println(e.getMessage());
             }
 
@@ -62,7 +62,7 @@ public class Sun {
     //Starter Motor
     private static void processInputs(String input, TaskList tasks, Storage storage)
             throws InvalidCommandException, InvalidTodoException, InvalidDeadlineException, InvalidEventException,
-            InvalidTaskNumberException, IOException {
+            InvalidTaskNumberException, IOException, IllegalArgumentException {
 
         // Only split into 2 parts first
         String[] inputs = input.split(" ", 2);
@@ -157,7 +157,7 @@ public class Sun {
 
         String description = parts[0];
         String byString = parts[1];
-        LocalDate byDate = LocalDate.parse(byString);
+        LocalDate byDate = DateParser.parse(byString);
         Task deadlineTask = new Deadline(description, byDate);
         tasks.add(deadlineTask);
         printTaskAdded(deadlineTask, tasks.size());

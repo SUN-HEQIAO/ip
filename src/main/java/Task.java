@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.util.Date;
 
 public abstract class Task {
     private String description;
@@ -42,7 +43,7 @@ public abstract class Task {
                 return todo;
             case "D":
                 String byString = parts[3];
-                LocalDate byDate = LocalDate.parse(byString);
+                LocalDate byDate = DateParser.parse(byString);
                 Deadline deadline = new Deadline(description, byDate);
                 deadline.setIsDone(isDone);
                 return deadline;
@@ -53,7 +54,7 @@ public abstract class Task {
                 event.setIsDone(isDone);
                 return event;
             default:
-                throw new IllegalArgumentException("Unknown task type: " + type);
+                throw new IllegalArgumentException("OOPS!!! Unknown task type: " + type);
         }
     }
 }

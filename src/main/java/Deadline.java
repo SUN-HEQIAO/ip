@@ -16,8 +16,8 @@ public class Deadline extends Task{
         return String.format("[D]%s (by: %s)", super.toString(), this.by.format(OUTPUT_FORMAT));
     }
 
-    // "this.by.toString()" -> yyyy-MM-dd
-    // You save to the disk the above format
+    // "this.by.toString()" -> "yyyy-MM-dd"
+    // You save to the disk the "yyyy-MM-dd" format
     // You print to terminal the "MMM dd yy" format
     @Override
     public String toFileString() {
