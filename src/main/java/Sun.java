@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Sun {
@@ -8,9 +8,22 @@ public class Sun {
         System.out.println("Hello! I'm Sun.");
         System.out.println("What can I do for you?");
 
-        // Prepare Scanner and ArrayList<Task>
+        // Prepare Scanner
         Scanner scanner = new Scanner(System.in);
-        ArrayList<Task> tasks = new ArrayList<>();
+
+        //Prepare Storage
+        Storage storage = new Storage("./data/sun.txt");
+
+        //Prepare TaskList
+        TaskList tasks;
+
+        // Load tasks from disk
+        try {
+            tasks = new TaskList(storage.load());
+        } catch (IOException e) {
+            System.out.println("Failed to load tasks. Starting with empty list.");
+            tasks = new TaskList();
+        }
 
         // Input loop using Switch Statements
         while (true) {
@@ -18,7 +31,9 @@ public class Sun {
             String input = scanner.nextLine().trim();
 
             // Skip empty inputs ("")
-            if (input.isEmpty()) continue;
+            if (input.isEmpty()) {
+                continue;
+            }
 
             // Normalise spaces
             input = input.replaceAll("\\s+", " ");
@@ -30,10 +45,10 @@ public class Sun {
 
             // Process inputs
             try {
-                processInputs(input, tasks);
+                processInputs(input, tasks, storage);
             } catch (InvalidCommandException | InvalidTaskNumberException |
                      InvalidTodoException | InvalidDeadlineException |
-                     InvalidEventException e) {
+                     InvalidEventException | IOException e) {
                 System.out.println(e.getMessage());
             }
 
@@ -44,12 +59,13 @@ public class Sun {
 
 
     //Starter Motor
-    private static void processInputs(String input, ArrayList<Task> tasks)
-            throws InvalidCommandException, InvalidTodoException,
-            InvalidDeadlineException, InvalidEventException, InvalidTaskNumberException {
+    private static void processInputs(String input, TaskList tasks, Storage storage)
+            throws InvalidCommandException, InvalidTodoException, InvalidDeadlineException, InvalidEventException,
+            InvalidTaskNumberException, IOException {
 
+        // Only split into 2 parts first
         String[] inputs = input.split(" ", 2);
-        String command = inputs[0].toLowerCase(); //only for command
+        String command = inputs[0].toLowerCase(); //only for command, the first part of input
         String rest = (inputs.length > 1) ? inputs[1] : "";
 
         switch (command) {
@@ -60,26 +76,32 @@ public class Sun {
 
             case "mark":
                 handleMark(tasks, rest, true);
+                storage.save(tasks);
                 break;
 
             case "unmark":
                 handleMark(tasks, rest, false);
+                storage.save(tasks);
                 break;
 
             case "todo":
                 handleTodo(tasks, rest);
+                storage.save(tasks);
                 break;
 
             case "deadline":
                 handleDeadline(tasks, rest);
+                storage.save(tasks);
                 break;
 
             case "event":
                 handleEvent(tasks, rest);
+                storage.save(tasks);
                 break;
 
             case "delete":
                 handleDeletion(tasks, rest);
+                storage.save(tasks);
                 break;
 
             default:
@@ -89,13 +111,13 @@ public class Sun {
 
 
     // Helper Methods
-    private static void goThroughList(ArrayList<Task> tasks) {
+    private static void goThroughList(TaskList tasks) {
         for (int i = 0; i < tasks.size(); i++) {
             System.out.println(String.format("%d. %s", i + 1, tasks.get(i)));
         }
     }
 
-    private static void handleMark(ArrayList<Task> tasks, String rest, boolean isDone)
+    private static void handleMark(TaskList tasks, String rest, boolean isDone)
             throws InvalidTaskNumberException {
         int index = parseTaskNumber(tasks.size(), rest);
         Task targetTask = tasks.get(index);
@@ -111,7 +133,7 @@ public class Sun {
         System.out.println(String.format("Now you have %d tasks in the list.", taskCount));
     }
 
-    private static void handleTodo(ArrayList<Task> tasks, String rest)
+    private static void handleTodo(TaskList tasks, String rest)
             throws InvalidTodoException {
         // todoTask with no description
         if (rest.isEmpty()) {
@@ -123,7 +145,7 @@ public class Sun {
         printTaskAdded(todoTask, tasks.size());
     }
 
-    private static void handleDeadline(ArrayList<Task> tasks, String rest)
+    private static void handleDeadline(TaskList tasks, String rest)
             throws InvalidDeadlineException {
         String[] parts = rest.split(" /by ", 2);
 
@@ -139,7 +161,7 @@ public class Sun {
         printTaskAdded(deadlineTask, tasks.size());
     }
 
-    private static void handleEvent(ArrayList<Task> tasks, String rest)
+    private static void handleEvent(TaskList tasks, String rest)
             throws InvalidEventException {
         String[] descriptionSplit = rest.split(" /from ", 2);
 
@@ -163,7 +185,7 @@ public class Sun {
         printTaskAdded(eventTask, tasks.size());
     }
 
-    private static void handleDeletion(ArrayList<Task> tasks, String rest)
+    private static void handleDeletion(TaskList tasks, String rest)
             throws InvalidTaskNumberException {
         int index = parseTaskNumber(tasks.size(), rest);
         Task targetTask = tasks.get(index);
