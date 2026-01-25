@@ -9,10 +9,13 @@ public class Storage {
         this.filePath = filePath;
     }
 
+    // IOException != File not exist / File is empty
+
     public ArrayList<Task> load() throws IOException {
         ArrayList<Task> tasks = new ArrayList<>();
         File file = new File(filePath);
 
+        // Return empty list of Task if file does not exist
         if (!file.exists()) {
             return tasks;
         }
@@ -30,6 +33,8 @@ public class Storage {
         File file = new File(filePath);
         File parent = file.getParentFile();
 
+        //"parent != null" just means there is a folder in the filePath String
+        //After that, "!parent.exists()" checks if the folder exists physically on disk, and "mkdirs()" creates it if missing.
         if (parent != null && !parent.exists()) {
             parent.mkdirs();
         }

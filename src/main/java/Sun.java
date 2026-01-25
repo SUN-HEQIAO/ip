@@ -1,5 +1,4 @@
-import java.lang.reflect.Array;
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Sun {
@@ -9,9 +8,22 @@ public class Sun {
         System.out.println("Hello! I'm Sun.");
         System.out.println("What can I do for you?");
 
-        // Prepare Scanner and ArrayList<Task>
+        // Prepare Scanner
         Scanner scanner = new Scanner(System.in);
-        TaskList tasks = new TaskList();
+
+        //Prepare Storage
+        Storage storage = new Storage("./data/sun.txt");
+
+        //Prepare TaskList
+        TaskList tasks;
+
+        // Load tasks from disk
+        try {
+            tasks = new TaskList(storage.load());
+        } catch (IOException e) {
+            System.out.println("Failed to load tasks. Starting with empty list.");
+            tasks = new TaskList();
+        }
 
         // Input loop using Switch Statements
         while (true) {
@@ -33,10 +45,10 @@ public class Sun {
 
             // Process inputs
             try {
-                processInputs(input, tasks);
+                processInputs(input, tasks, storage);
             } catch (InvalidCommandException | InvalidTaskNumberException |
                      InvalidTodoException | InvalidDeadlineException |
-                     InvalidEventException e) {
+                     InvalidEventException | IOException e) {
                 System.out.println(e.getMessage());
             }
 
@@ -47,9 +59,9 @@ public class Sun {
 
 
     //Starter Motor
-    private static void processInputs(String input, TaskList tasks)
-            throws InvalidCommandException, InvalidTodoException,
-            InvalidDeadlineException, InvalidEventException, InvalidTaskNumberException {
+    private static void processInputs(String input, TaskList tasks, Storage storage)
+            throws InvalidCommandException, InvalidTodoException, InvalidDeadlineException, InvalidEventException,
+            InvalidTaskNumberException, IOException {
 
         // Only split into 2 parts first
         String[] inputs = input.split(" ", 2);
@@ -64,26 +76,32 @@ public class Sun {
 
             case "mark":
                 handleMark(tasks, rest, true);
+                storage.save(tasks);
                 break;
 
             case "unmark":
                 handleMark(tasks, rest, false);
+                storage.save(tasks);
                 break;
 
             case "todo":
                 handleTodo(tasks, rest);
+                storage.save(tasks);
                 break;
 
             case "deadline":
                 handleDeadline(tasks, rest);
+                storage.save(tasks);
                 break;
 
             case "event":
                 handleEvent(tasks, rest);
+                storage.save(tasks);
                 break;
 
             case "delete":
                 handleDeletion(tasks, rest);
+                storage.save(tasks);
                 break;
 
             default:
