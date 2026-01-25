@@ -24,4 +24,33 @@ public abstract class Task {
     public String toString() {
         return String.format("[%s] %s", this.getIsDone(), this.description);
     }
+
+    public abstract String toFileString();
+
+    public static Task fromFileString(String line) {
+        String[] parts = line.split(" \\| ");
+        String type = parts[0];
+        boolean isDone = parts[1].equals("1");
+        String description = parts[2];
+
+        switch (type) {
+            case "T":
+                Todo todo = new Todo(description);
+                todo.setIsDone(isDone);;
+                return todo;
+            case "D":
+                String by = parts[3];
+                Deadline deadline = new Deadline(description, by);
+                deadline.setIsDone(isDone);
+                return deadline;
+            case "E":
+                String from = parts[3];
+                String to = parts[4];
+                Event event = new Event(description, from, to);
+                event.setIsDone(isDone);
+                return event;
+            default:
+                throw new IllegalArgumentException("Unknown task type: " + type);
+        }
+    }
 }

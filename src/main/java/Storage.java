@@ -19,7 +19,7 @@ public class Storage {
 
         try (Scanner scanner = new Scanner(file)) {
             while (scanner.hasNextLine()) {
-                tasks.add(Task.fromFileString(scanner.nextLine());
+                tasks.add(Task.fromFileString(scanner.nextLine()));
             }
         }
 
