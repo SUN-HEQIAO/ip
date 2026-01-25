@@ -1,6 +1,4 @@
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 public abstract class Task {
     private String description;
@@ -49,9 +47,11 @@ public abstract class Task {
                 deadline.setIsDone(isDone);
                 return deadline;
             case "E":
-                String from = parts[3];
-                String to = parts[4];
-                Event event = new Event(description, from, to);
+                String fromString = parts[3];
+                String toString = parts[4];
+                LocalDateTime fromDateTime = DateParser.parse(fromString);
+                LocalDateTime toDateTime = DateParser.parse(toString);
+                Event event = new Event(description, fromDateTime, toDateTime);
                 event.setIsDone(isDone);
                 return event;
             default:

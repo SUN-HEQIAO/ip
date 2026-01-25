@@ -179,10 +179,11 @@ public class Sun {
         if (fromSplit.length < 2 || fromSplit[0].isEmpty() || fromSplit[1].isEmpty())
             throw new InvalidEventException("OOPS!!! The start or end time of an event cannot be empty.");
 
-        String from = fromSplit[0];
-        String to = fromSplit[1];
-
-        Task eventTask = new Event(description, from, to);
+        String fromString = fromSplit[0];
+        String toString = fromSplit[1];
+        LocalDateTime fromDateTime = DateParser.parse(fromString);
+        LocalDateTime toDateTime = DateParser.parse(toString);
+        Task eventTask = new Event(description, fromDateTime, toDateTime);
         tasks.add(eventTask);
         printTaskAdded(eventTask, tasks.size());
     }
