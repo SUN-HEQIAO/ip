@@ -1,4 +1,4 @@
-public class Task {
+public abstract class Task {
     private String description;
     private boolean isDone;
 
@@ -12,6 +12,7 @@ public class Task {
     }
 
     public String getIsDone() {
+
         return this.isDone ? "X" : " ";
     }
 
@@ -21,6 +22,6 @@ public class Task {
 
     @Override
     public String toString() {
-        return String.format("[%s] %s", this.getIsDone(), this.getDescription());
+        return String.format("[%s] %s", this.isDone, this.description);
     }
 }

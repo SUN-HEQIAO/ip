@@ -18,7 +18,9 @@ public class Sun {
             String input = scanner.nextLine().trim();
 
             // Skip empty inputs ("")
-            if (input.isEmpty()) continue;
+            if (input.isEmpty()) {
+                continue;
+            }
 
             // Normalise spaces
             input = input.replaceAll("\\s+", " ");
@@ -48,8 +50,9 @@ public class Sun {
             throws InvalidCommandException, InvalidTodoException,
             InvalidDeadlineException, InvalidEventException, InvalidTaskNumberException {
 
+        // Only split into 2 parts first
         String[] inputs = input.split(" ", 2);
-        String command = inputs[0].toLowerCase(); //only for command
+        String command = inputs[0].toLowerCase(); //only for command, the first part of input
         String rest = (inputs.length > 1) ? inputs[1] : "";
 
         switch (command) {
