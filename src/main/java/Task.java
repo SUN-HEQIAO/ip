@@ -44,8 +44,8 @@ public abstract class Task {
                 return todo;
             case "D":
                 String byString = parts[3];
-                LocalDateTime byDate = DateParser.parse(byString);
-                Deadline deadline = new Deadline(description, byDate);
+                LocalDateTime byDateTime = DateParser.parse(byString);
+                Deadline deadline = new Deadline(description, byDateTime);
                 deadline.setIsDone(isDone);
                 return deadline;
             case "E":

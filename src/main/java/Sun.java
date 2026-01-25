@@ -157,8 +157,8 @@ public class Sun {
 
         String description = parts[0];
         String byString = parts[1];
-        LocalDateTime byDate = DateParser.parse(byString);
-        Task deadlineTask = new Deadline(description, byDate);
+        LocalDateTime byDateTime = DateParser.parse(byString);
+        Task deadlineTask = new Deadline(description, byDateTime);
         tasks.add(deadlineTask);
         printTaskAdded(deadlineTask, tasks.size());
     }
