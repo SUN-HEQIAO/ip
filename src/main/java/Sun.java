@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Scanner;
 
 public class Sun {
@@ -155,8 +156,9 @@ public class Sun {
         }
 
         String description = parts[0];
-        String by = parts[1];
-        Task deadlineTask = new Deadline(description, by);
+        String byString = parts[1];
+        LocalDate byDate = LocalDate.parse(byString);
+        Task deadlineTask = new Deadline(description, byDate);
         tasks.add(deadlineTask);
         printTaskAdded(deadlineTask, tasks.size());
     }

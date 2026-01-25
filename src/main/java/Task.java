@@ -1,3 +1,5 @@
+import java.time.LocalDate;
+
 public abstract class Task {
     private String description;
     private boolean isDone;
@@ -39,8 +41,9 @@ public abstract class Task {
                 todo.setIsDone(isDone);;
                 return todo;
             case "D":
-                String by = parts[3];
-                Deadline deadline = new Deadline(description, by);
+                String byString = parts[3];
+                LocalDate byDate = LocalDate.parse(byString);
+                Deadline deadline = new Deadline(description, byDate);
                 deadline.setIsDone(isDone);
                 return deadline;
             case "E":
