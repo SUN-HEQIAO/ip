@@ -1,3 +1,4 @@
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -10,7 +11,7 @@ public class Sun {
 
         // Prepare Scanner and ArrayList<Task>
         Scanner scanner = new Scanner(System.in);
-        ArrayList<Task> tasks = new ArrayList<>();
+        TaskList tasks = new TaskList();
 
         // Input loop using Switch Statements
         while (true) {
@@ -46,7 +47,7 @@ public class Sun {
 
 
     //Starter Motor
-    private static void processInputs(String input, ArrayList<Task> tasks)
+    private static void processInputs(String input, TaskList tasks)
             throws InvalidCommandException, InvalidTodoException,
             InvalidDeadlineException, InvalidEventException, InvalidTaskNumberException {
 
@@ -92,13 +93,13 @@ public class Sun {
 
 
     // Helper Methods
-    private static void goThroughList(ArrayList<Task> tasks) {
+    private static void goThroughList(TaskList tasks) {
         for (int i = 0; i < tasks.size(); i++) {
             System.out.println(String.format("%d. %s", i + 1, tasks.get(i)));
         }
     }
 
-    private static void handleMark(ArrayList<Task> tasks, String rest, boolean isDone)
+    private static void handleMark(TaskList tasks, String rest, boolean isDone)
             throws InvalidTaskNumberException {
         int index = parseTaskNumber(tasks.size(), rest);
         Task targetTask = tasks.get(index);
@@ -114,7 +115,7 @@ public class Sun {
         System.out.println(String.format("Now you have %d tasks in the list.", taskCount));
     }
 
-    private static void handleTodo(ArrayList<Task> tasks, String rest)
+    private static void handleTodo(TaskList tasks, String rest)
             throws InvalidTodoException {
         // todoTask with no description
         if (rest.isEmpty()) {
@@ -126,7 +127,7 @@ public class Sun {
         printTaskAdded(todoTask, tasks.size());
     }
 
-    private static void handleDeadline(ArrayList<Task> tasks, String rest)
+    private static void handleDeadline(TaskList tasks, String rest)
             throws InvalidDeadlineException {
         String[] parts = rest.split(" /by ", 2);
 
@@ -142,7 +143,7 @@ public class Sun {
         printTaskAdded(deadlineTask, tasks.size());
     }
 
-    private static void handleEvent(ArrayList<Task> tasks, String rest)
+    private static void handleEvent(TaskList tasks, String rest)
             throws InvalidEventException {
         String[] descriptionSplit = rest.split(" /from ", 2);
 
@@ -166,7 +167,7 @@ public class Sun {
         printTaskAdded(eventTask, tasks.size());
     }
 
-    private static void handleDeletion(ArrayList<Task> tasks, String rest)
+    private static void handleDeletion(TaskList tasks, String rest)
             throws InvalidTaskNumberException {
         int index = parseTaskNumber(tasks.size(), rest);
         Task targetTask = tasks.get(index);
