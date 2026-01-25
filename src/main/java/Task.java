@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public abstract class Task {
@@ -43,7 +44,7 @@ public abstract class Task {
                 return todo;
             case "D":
                 String byString = parts[3];
-                LocalDate byDate = DateParser.parse(byString);
+                LocalDateTime byDate = DateParser.parse(byString);
                 Deadline deadline = new Deadline(description, byDate);
                 deadline.setIsDone(isDone);
                 return deadline;

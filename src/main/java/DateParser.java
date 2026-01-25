@@ -1,35 +1,37 @@
-import java.sql.Date;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 public class DateParser {
-    private static final DateTimeFormatter[] FORMATS = new DateTimeFormatter[] {    DateTimeFormatter.ofPattern("yyyy-MM-dd"),
+    private static final DateTimeFormatter[] FORMATS = new DateTimeFormatter[] {
+            DateTimeFormatter.ofPattern("MMM dd yyyy HHmm"), // Load from "sun.txt" format
+            DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"), // Reading user input format date WITH time
+            DateTimeFormatter.ofPattern("yyyy-MM-dd"), // Reading user input format date WITHOUT time
+            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"),
+            DateTimeFormatter.ofPattern("d/M/yyyy HH:mm"),
+            DateTimeFormatter.ofPattern("d-M-yyyy h:mma"),
             DateTimeFormatter.ofPattern("d/M/yyyy"),
-            DateTimeFormatter.ofPattern("d-M-yyyy"),
-            DateTimeFormatter.ofPattern("dd-M-yyyy"),
-            DateTimeFormatter.ofPattern("dd/M/yyyy"),
-            DateTimeFormatter.ofPattern("d-MM-yyyy"),
-            DateTimeFormatter.ofPattern("d/MM/yyyy"),
-            DateTimeFormatter.ofPattern("dd/MM/yyyy"),
-            DateTimeFormatter.ofPattern("dd-MM-yyyy"),
-            DateTimeFormatter.ofPattern("MMM d yyyy"),
-            DateTimeFormatter.ofPattern("d MMM yyyy"),
-            DateTimeFormatter.ofPattern("MMMM d yyyy"),
-            DateTimeFormatter.ofPattern("d MMMM yyyy"),
+            DateTimeFormatter.ofPattern("d-M-yyyy")
     };
 
-    public static LocalDate parse(String input) {
-        for (DateTimeFormatter format: FORMATS) {
+    public static LocalDateTime parse(String input) {
+        for (DateTimeFormatter format : FORMATS) {
             try {
-                // Return LocalDate Format
-                return LocalDate.parse(input, format);
-            } catch (DateTimeParseException e) {
-                // Ignore the exception to prevent crashing, continue trying
+                // Try parsing as LocalDateTime first
+                return LocalDateTime.parse(input, format);
+            } catch (DateTimeParseException e1) {
+                try {
+                    // If that fails, try LocalDate and convert to LocalDateTime with its default 00:00
+                    LocalDate date = LocalDate.parse(input, format);
+                    return date.atStartOfDay();
+                } catch (DateTimeParseException ignored) {
+                    // Ignore the exception, try again
+                }
             }
         }
 
-        // If all formats don't match
-        throw new IllegalArgumentException("OOPS!!! Invalid date format. Please use yyyy-MM-dd.");
+        // If ALL formats don't match user input
+        throw new IllegalArgumentException("OOPS!!! Invalid date format. Please use yyyy-MM-dd HHmm.");
     }
 }
