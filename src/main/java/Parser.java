@@ -20,36 +20,36 @@ public class Parser {
         switch (command) {
             case "list":
                 ui.printLine("Here are the tasks in your list:");
-                tasks.printTasks(ui);
+                tasks.printTasks();
                 break;
 
             case "mark":
-                tasks.mark(rest, true, ui);
+                tasks.mark(rest, true);
                 storage.save(tasks);
                 break;
 
             case "unmark":
-                tasks.mark(rest, false, ui);
+                tasks.mark(rest, false);
                 storage.save(tasks);
                 break;
 
             case "todo":
-                tasks.addTodo(rest, ui);
+                tasks.addTodo(rest);
                 storage.save(tasks);
                 break;
 
             case "deadline":
-                tasks.addDeadline(rest, ui);
+                tasks.addDeadline(rest);
                 storage.save(tasks);
                 break;
 
             case "event":
-                tasks.addEvent(rest, ui);
+                tasks.addEvent(rest);
                 storage.save(tasks);
                 break;
 
             case "delete":
-                tasks.delete(rest, ui);
+                tasks.delete(rest);
                 storage.save(tasks);
                 break;
 
@@ -57,6 +57,4 @@ public class Parser {
                 throw new InvalidCommandException("OOPS!!! I'm sorry, but I don't know what that command means :-(");
         }
     }
-
-
 }

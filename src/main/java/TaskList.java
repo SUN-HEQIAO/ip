@@ -3,6 +3,7 @@ import java.util.ArrayList;
 
 public class TaskList {
     private ArrayList<Task> tasks;
+    private Ui ui = new Ui();
 
     public TaskList() {
         this.tasks = new ArrayList<>();
@@ -12,36 +13,36 @@ public class TaskList {
         this.tasks = task;
     }
 
-    public int size() {
+    public int sizeTasks() {
         return this.tasks.size();
     }
 
-    public Task get(int index) {
+    public Task getTask(int index) {
         return this.tasks.get(index);
     }
 
-    public ArrayList<Task> getAllTasks() {
+    public ArrayList<Task> getTasks() {
         return this.tasks;
     }
 
-    public void add(Task task) {
+    public void addTask(Task task) {
         this.tasks.add(task);
     }
 
-    public Task remove(int index) {
+    public Task removeTask(int index) {
         return this.tasks.remove(index);
     }
 
-    public void printTasks(Ui ui) {
-        for (int i = 0; i < this.size(); i++)  {
-            ui.printLine(String.format("%d. %s", i + 1, this.get(i)));
+    public void printTasks() {
+        for (int i = 0; i < this.sizeTasks(); i++)  {
+            ui.printLine(String.format("%d. %s", i + 1, this.getTask(i)));
         }
     }
 
-    public void mark(String rest, boolean isDone, Ui ui)
+    public void mark(String rest, boolean isDone)
             throws InvalidTaskNumberException {
         int index = this.parseTaskNumber(rest);
-        Task targetTask = this.get(index);
+        Task targetTask = this.getTask(index);
         targetTask.setIsDone(isDone);
         ui.printLine(isDone
                 ? "Nice! I've marked this task as done:"
@@ -49,7 +50,7 @@ public class TaskList {
         ui.printLine(targetTask.toString());
     }
 
-    public void addTodo(String rest, Ui ui)
+    public void addTodo(String rest)
             throws InvalidTodoException {
         // todoTask with no description
         if (rest.isEmpty()) {
@@ -57,12 +58,12 @@ public class TaskList {
         }
 
         Task todoTask = new Todo(rest);
-        this.add(todoTask);
+        this.addTask(todoTask);
 
-        printTaskAdded(todoTask, ui);
+        printTaskAdded(todoTask);
     }
 
-    public void addDeadline(String rest, Ui ui)
+    public void addDeadline(String rest)
             throws InvalidDeadlineException {
         String[] parts = rest.split(" /by ", 2);
 
@@ -76,12 +77,12 @@ public class TaskList {
 
         LocalDateTime byDateTime = DateParser.parse(byString);
         Task deadlineTask = new Deadline(description, byDateTime);
-        this.add(deadlineTask);
+        this.addTask(deadlineTask);
 
-        printTaskAdded(deadlineTask, ui);
+        printTaskAdded(deadlineTask);
     }
 
-    public void addEvent(String rest, Ui ui)
+    public void addEvent(String rest)
             throws InvalidEventException {
         String[] descriptionSplit = rest.split(" /from ", 2);
 
@@ -102,20 +103,20 @@ public class TaskList {
         LocalDateTime fromDateTime = DateParser.parse(from);
         LocalDateTime toDateTime = DateParser.parse(to);
         Task eventTask = new Event(description, fromDateTime, toDateTime);
-        this.add(eventTask);
+        this.addTask(eventTask);
 
-        printTaskAdded(eventTask, ui);
+        printTaskAdded(eventTask);
     }
 
-    public void delete(String rest, Ui ui)
+    public void delete(String rest)
             throws InvalidTaskNumberException {
         int index = parseTaskNumber(rest);
-        Task targetTask = this.get(index);
-        this.remove(index);
+        Task targetTask = this.getTask(index);
+        this.removeTask(index);
 
         ui.printLine("Noted. I've removed this task:");
         ui.printLine(targetTask.toString());
-        ui.printLine(String.format("Now you have %d tasks left", tasks.size()));
+        ui.printLine(String.format("Now you have %d tasks left", this.sizeTasks()));
     }
 
 
@@ -137,7 +138,7 @@ public class TaskList {
         }
 
         // Task Number out of range
-        if (index < 0 || index >= this.size()) {
+        if (index < 0 || index >= this.sizeTasks()) {
             throw new InvalidTaskNumberException("OOPS!!! Task number out of range.");
         }
 
@@ -145,10 +146,10 @@ public class TaskList {
     }
 
     //Helper method
-    private void printTaskAdded(Task task, Ui ui) {
+    private void printTaskAdded(Task task) {
         ui.printLine("Got it. I've added this task:");
         ui.printLine(task.toString());
-        ui.printLine("Now you have " + this.size() + " tasks in the list.");
+        ui.printLine("Now you have " + this.sizeTasks() + " tasks in the list.");
     }
 
 }

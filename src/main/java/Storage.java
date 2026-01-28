@@ -48,7 +48,7 @@ public class Storage {
 
         // FileWriter creates the file if it doesn't exist, else, it overwrites the file
         try (FileWriter writer = new FileWriter(filePath)) {
-            for (Task task : tasks.getAllTasks()) {
+            for (Task task : tasks.getTasks()) {
                 writer.write(task.toFileString());
                 writer.write(System.lineSeparator());
             }

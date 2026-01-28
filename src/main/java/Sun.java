@@ -4,13 +4,10 @@ public class Sun {
     // Attributes/Fields
     private Storage storage;
     private TaskList tasks;
-    private Ui ui;
+    private Ui ui = new Ui();;
 
     // Constructor
     public Sun(String filePath) {
-        // Prepare Ui Instance
-        ui = new Ui();
-
         // Prepare Storage
         storage = new Storage(filePath);
 
