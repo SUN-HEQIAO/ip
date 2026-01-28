@@ -3,43 +3,41 @@ import java.time.LocalDateTime;
 import java.util.Scanner;
 
 public class Sun {
-    // Main
-    public static void main(String[] args) {
-        // Opening Message
-        System.out.println("Hello! I'm Sun.");
-        System.out.println("What can I do for you?");
+    // Attributes/Fields
+    private Storage storage;
+    private TaskList tasks;
+    private Ui ui;
 
-        // Prepare Scanner
-        Scanner scanner = new Scanner(System.in);
+    // Constructor
+    public Sun(String filePath) {
+        // Prepare Ui Instance
+        ui = new Ui();
 
-        //Prepare Storage
-        Storage storage = new Storage("./data/sun.txt");
-
-        //Prepare TaskList
-        TaskList tasks;
+        // Prepare Storage
+        storage = new Storage(filePath);
 
         // Load tasks from disk
         try {
-            tasks = new TaskList(storage.load());
+            this.tasks = new TaskList(storage.load());
         } catch (IOException e) {
             System.out.println("Failed to load tasks. Starting with empty list.");
-            tasks = new TaskList();
+            this.tasks = new TaskList();
         }
+    }
 
-        // Input loop using Switch Statements
+    // Loop in "main()" is moved here
+    public void run() {
+        ui.showWelcome();
+
         while (true) {
             // Trim user input
-            String input = scanner.nextLine().trim();
+            String input = ui.readLine().trim();
 
             // Skip empty inputs ("")
             if (input.isEmpty()) {
                 continue;
             }
 
-            // Normalise spaces
-            input = input.replaceAll("\\s+", " ");
-
-            // If user inputs "bye"
             if (input.equalsIgnoreCase("bye")) {
                 break;
             }
@@ -50,12 +48,16 @@ public class Sun {
             } catch (InvalidCommandException | InvalidTaskNumberException |
                      InvalidTodoException | InvalidDeadlineException |
                      InvalidEventException | IOException | IllegalArgumentException e) {
-                System.out.println(e.getMessage());
+                ui.showError(e.getMessage());
             }
-
         }
 
-        System.out.println("Bye. Hope to see you again soon!");
+        ui.showBye();
+    }
+
+    // Main
+    public static void main(String[] args) {
+        new Sun("./data/sun.txt").run();
     }
 
 
