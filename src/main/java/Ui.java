@@ -9,7 +9,7 @@ public class Ui {
         scanner = new Scanner(System.in);
     }
 
-    public void showWelcome() {
+    public void printWelcome() {
         System.out.println("Hello! I'm Sun.");
         System.out.println("What can I do for you?");
     }
@@ -18,15 +18,15 @@ public class Ui {
         return scanner.nextLine();
     }
 
-    public void showLine(String message) {
+    public void printLine(String message) {
         System.out.println(message);
     }
 
-    public void showError(String message) {
+    public void printError(String message) {
         System.out.println(message);
     }
 
-    public void showBye() {
+    public void printBye() {
         System.out.println("Bye. Hope to see you again soon!");
     }
 }
