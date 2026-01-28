@@ -1,3 +1,15 @@
+package sun;
+
+import sun.exception.InvalidCommandException;
+import sun.exception.InvalidTaskNumberException;
+import sun.exception.InvalidTodoException;
+import sun.exception.InvalidDeadlineException;
+import sun.exception.InvalidEventException;
+import sun.parser.Parser;
+import sun.storage.Storage;
+import sun.task.TaskList;
+import sun.ui.Ui;
+
 import java.io.IOException;
 
 public class Sun {

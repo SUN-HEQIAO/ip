@@ -1,8 +1,10 @@
+package sun.task;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
-public class Deadline extends Task{
+
+public class Deadline extends Task {
     protected LocalDateTime by;
     // OUTPUT_FORMAT reformats LocalDateTime into desired format stored in .txt file or printed
     private static final DateTimeFormatter OUTPUT_FORMAT = DateTimeFormatter.ofPattern("MMM dd yyyy HHmm");
