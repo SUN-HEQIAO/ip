@@ -29,43 +29,43 @@ public class InputParser {
         String rest = (inputs.length > 1) ? inputs[1] : "";
 
         switch (command) {
-            case "list":
-                ui.printLine("Here are the tasks in your list:");
-                tasks.printTasks();
-                break;
+        case "list":
+            ui.printLine("Here are the tasks in your list:");
+            tasks.printTasks();
+            break;
 
-            case "mark":
-                tasks.mark(rest, true);
-                storage.save(tasks);
-                break;
+        case "mark":
+            tasks.mark(rest, true);
+            storage.save(tasks);
+            break;
 
-            case "unmark":
-                tasks.mark(rest, false);
-                storage.save(tasks);
-                break;
+        case "unmark":
+            tasks.mark(rest, false);
+            storage.save(tasks);
+            break;
 
-            case "todo":
-                tasks.addTodo(rest);
-                storage.save(tasks);
-                break;
+        case "todo":
+            tasks.addTodo(rest);
+            storage.save(tasks);
+            break;
 
-            case "deadline":
-                tasks.addDeadline(rest);
-                storage.save(tasks);
-                break;
+        case "deadline":
+            tasks.addDeadline(rest);
+            storage.save(tasks);
+            break;
 
-            case "event":
-                tasks.addEvent(rest);
-                storage.save(tasks);
-                break;
+        case "event":
+            tasks.addEvent(rest);
+            storage.save(tasks);
+            break;
 
-            case "delete":
-                tasks.delete(rest);
-                storage.save(tasks);
-                break;
+        case "delete":
+            tasks.delete(rest);
+            storage.save(tasks);
+            break;
 
-            default:
-                throw new InvalidCommandException("OOPS!!! I'm sorry, but I don't know what that command means :-(");
+        default:
+            throw new InvalidCommandException("OOPS!!! I'm sorry, but I don't know what that command means :-(");
         }
     }
 }

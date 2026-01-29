@@ -1,5 +1,7 @@
 package sun.exception;
 
 public class InvalidTaskNumberException extends Exception {
-    public InvalidTaskNumberException(String message) { super(message); }
+    public InvalidTaskNumberException(String message) {
+        super(message);
+    }
 }
