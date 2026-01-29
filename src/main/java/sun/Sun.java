@@ -5,7 +5,7 @@ import sun.exception.InvalidTaskNumberException;
 import sun.exception.InvalidTodoException;
 import sun.exception.InvalidDeadlineException;
 import sun.exception.InvalidEventException;
-import sun.parser.Parser;
+import sun.parser.InputParser;
 import sun.storage.Storage;
 import sun.task.TaskList;
 import sun.ui.Ui;
@@ -45,13 +45,13 @@ public class Sun {
                 continue;
             }
 
-            if (Parser.isBye(input)) {
+            if (InputParser.isBye(input)) {
                 break;
             }
 
             // Process inputs
             try {
-                Parser.parseInputs(input, tasks, storage, ui);
+                InputParser.parseInput(input, tasks, storage, ui);
             } catch (InvalidCommandException | InvalidTaskNumberException |
                      InvalidTodoException | InvalidDeadlineException |
                      InvalidEventException | IOException | IllegalArgumentException e) {

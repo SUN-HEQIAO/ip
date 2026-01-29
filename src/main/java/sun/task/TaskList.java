@@ -4,7 +4,7 @@ import sun.exception.InvalidTaskNumberException;
 import sun.exception.InvalidTodoException;
 import sun.exception.InvalidDeadlineException;
 import sun.exception.InvalidEventException;
-import sun.parser.DateParser;
+import sun.parser.DateTimeParser;
 import sun.ui.Ui;
 
 import java.time.LocalDateTime;
@@ -84,7 +84,7 @@ public class TaskList {
         String description = parts[0];
         String byString = parts[1];
 
-        LocalDateTime byDateTime = DateParser.parse(byString);
+        LocalDateTime byDateTime = DateTimeParser.parseDateTime(byString);
         Task deadlineTask = new Deadline(description, byDateTime);
         this.addTask(deadlineTask);
 
@@ -109,8 +109,8 @@ public class TaskList {
 
         String from = fromSplit[0];
         String to = fromSplit[1];
-        LocalDateTime fromDateTime = DateParser.parse(from);
-        LocalDateTime toDateTime = DateParser.parse(to);
+        LocalDateTime fromDateTime = DateTimeParser.parseDateTime(from);
+        LocalDateTime toDateTime = DateTimeParser.parseDateTime(to);
         Task eventTask = new Event(description, fromDateTime, toDateTime);
         this.addTask(eventTask);
 
