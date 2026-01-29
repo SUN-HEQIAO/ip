@@ -1,5 +1,6 @@
 package sun.task;
 
+import sun.exception.InvalidFindException;
 import sun.exception.InvalidTaskNumberException;
 import sun.exception.InvalidTodoException;
 import sun.exception.InvalidDeadlineException;
@@ -99,6 +100,8 @@ public class TaskList {
      * Prints all tasks in the task list to the user.
      */
     public void printTasks() {
+        ui.printLine("Here are the tasks in your list:");
+
         for (int i = 0; i < this.sizeTasks(); i++)  {
             ui.printLine(String.format("%d. %s", i + 1, this.getTask(i)));
         }
@@ -190,8 +193,9 @@ public class TaskList {
         String[] fromSplit = descriptionSplit[1].split(" /to ", 2);
 
         // Event with no start or end
-        if (fromSplit.length < 2 || fromSplit[0].isEmpty() || fromSplit[1].isEmpty())
+        if (fromSplit.length < 2 || fromSplit[0].isEmpty() || fromSplit[1].isEmpty()) {
             throw new InvalidEventException("OOPS!!! The start or end time of an event cannot be empty.");
+        }
 
         String from = fromSplit[0];
         String to = fromSplit[1];
@@ -218,6 +222,39 @@ public class TaskList {
         ui.printLine("Noted. I've removed this task:");
         ui.printLine(targetTask.toString());
         ui.printLine(String.format("Now you have %d tasks left", this.sizeTasks()));
+    }
+
+    /**
+     * Searches the task list for tasks whose descriptions contain the given keyword.
+     * <p>
+     * The search is case-insensitive and prints all matching tasks in the order they appear
+     * in the list. If no tasks match, a message is displayed indicating no matches were found.
+     * <p>
+     * @param rest the keyword or phrase to search for in task descriptions
+     * @throws InvalidFindException if the search keyword is empty
+     * @see sun.task.Task#getDescription()
+     * @see sun.ui.Ui#printLine(String)
+     */
+    public void find(String rest)
+            throws InvalidFindException {
+        if (rest.isEmpty()) {
+            throw new InvalidFindException("OOPS!!! Please provide task to find.");
+        }
+
+        boolean found = false;
+        ui.printLine("Here are the matching tasks in your list:");
+
+        for (int i = 0; i < this.sizeTasks(); i++) {
+            Task targetTask = this.getTask(i);
+            if (targetTask.getDescription().toLowerCase().contains(rest.toLowerCase())) {
+                ui.printLine(String.format("%d. %s", i + 1, targetTask));
+                found = true;
+            }
+        }
+
+        if (!found) {
+            ui.printLine("No matching tasks found.");
+        }
     }
 
 

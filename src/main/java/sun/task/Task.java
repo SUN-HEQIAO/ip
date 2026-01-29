@@ -79,9 +79,9 @@ public abstract class Task {
      * <p>
      * The string must follow the format:
      * <ul>
-     *   <li>Todo: "T | 0 | 1 | description"</li>
-     *   <li>Deadline: "D | 0 | 1 | description | byDateTime"</li>
-     *   <li>Event: "E | 0 | 1 | description | fromDateTime | toDateTime"</li>
+     *   <li>Todo: "T | 0 or 1 | description"</li>
+     *   <li>Deadline: "D | 0 or 1 | description | byDateTime"</li>
+     *   <li>Event: "E | 0 or 1 | description | fromDateTime | toDateTime"</li>
      * </ul>
      * <p>
      * The method parses the string and returns the appropriate subclass
@@ -107,21 +107,21 @@ public abstract class Task {
             todo.setIsDone(isDone);;
             return todo;
         case "D":
-            String byString = parts[3];
-            LocalDateTime byDateTime = DateTimeParser.parseDateTime(byString);
+            String by = parts[3];
+            LocalDateTime byDateTime = DateTimeParser.parseDateTime(by);
             Deadline deadline = new Deadline(description, byDateTime);
             deadline.setIsDone(isDone);
             return deadline;
         case "E":
-            String fromString = parts[3];
-            String toString = parts[4];
-            LocalDateTime fromDateTime = DateTimeParser.parseDateTime(fromString);
-            LocalDateTime toDateTime = DateTimeParser.parseDateTime(toString);
+            String from = parts[3];
+            String to = parts[4];
+            LocalDateTime fromDateTime = DateTimeParser.parseDateTime(from);
+            LocalDateTime toDateTime = DateTimeParser.parseDateTime(to);
             Event event = new Event(description, fromDateTime, toDateTime);
             event.setIsDone(isDone);
             return event;
         default:
-            throw new IllegalArgumentException("OOPS!!! Unknown task type: " + type);
+            throw new IllegalArgumentException(String.format("OOPS!!! Unknown task type: %s", type));
         }
     }
 }

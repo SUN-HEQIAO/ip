@@ -1,6 +1,7 @@
 package sun;
 
 import sun.exception.InvalidCommandException;
+import sun.exception.InvalidFindException;
 import sun.exception.InvalidTaskNumberException;
 import sun.exception.InvalidTodoException;
 import sun.exception.InvalidDeadlineException;
@@ -87,8 +88,8 @@ public class Sun {
      *     <li>{@link InvalidTodoException}</li>
      *     <li>{@link InvalidDeadlineException}</li>
      *     <li>{@link InvalidEventException}</li>
+     *     <li>{@link InvalidFindException}</li>
      *     <li>{@link IOException}</li>
-     *     <li>{@link IllegalArgumentException}</li>
      * </ul>
      * These exceptions are caught and displayed without stopping the loop.
      *
@@ -98,7 +99,6 @@ public class Sun {
         ui.printWelcome();
 
         while (true) {
-            // Trim user input
             String input = ui.readLine();
 
             // Skip empty inputs ("")
@@ -115,7 +115,8 @@ public class Sun {
                 InputParser.parseInput(input, tasks, storage, ui);
             } catch (InvalidCommandException | InvalidTaskNumberException |
                      InvalidTodoException | InvalidDeadlineException |
-                     InvalidEventException | IOException | IllegalArgumentException e) {
+                     InvalidEventException | IOException | IllegalArgumentException |
+                     InvalidFindException e) {
                 ui.printError(e.getMessage());
             }
         }

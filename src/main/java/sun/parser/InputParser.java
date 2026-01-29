@@ -1,6 +1,7 @@
 package sun.parser;
 
 import sun.exception.InvalidCommandException;
+import sun.exception.InvalidFindException;
 import sun.exception.InvalidTaskNumberException;
 import sun.exception.InvalidTodoException;
 import sun.exception.InvalidDeadlineException;
@@ -54,6 +55,7 @@ public class InputParser {
      *     <li>deadline &lt;description /by dateTime&gt;</li>
      *     <li>event &lt;description /from startTime /to endTime&gt;</li>
      *     <li>delete &lt;task number&gt;</li>
+     *     <li>find &lt;description&gt;</li>
      * </ul>
      *
      * @param input the raw user input string
@@ -67,10 +69,12 @@ public class InputParser {
      * @throws InvalidTaskNumberException if a task number is missing, invalid, or out of range
      * @throws IOException if saving to storage fails
      * @throws IllegalArgumentException if input parsing encounters an unexpected error
+     * @throws InvalidFindException if a task to find is invalid
      */
     public static void parseInput(String input, TaskList tasks, Storage storage, Ui ui)
             throws InvalidCommandException, InvalidTodoException, InvalidDeadlineException,
-            InvalidEventException, InvalidTaskNumberException, IOException, IllegalArgumentException {
+            InvalidEventException, InvalidTaskNumberException, IOException,
+            IllegalArgumentException, InvalidFindException {
 
         // Clean up user inputs
         input = input.trim().replaceAll("\\s+", " ");
@@ -82,7 +86,6 @@ public class InputParser {
 
         switch (command) {
         case "list":
-            ui.printLine("Here are the tasks in your list:");
             tasks.printTasks();
             break;
 
@@ -114,6 +117,10 @@ public class InputParser {
         case "delete":
             tasks.delete(rest);
             storage.save(tasks);
+            break;
+
+        case "find":
+            tasks.find(rest);
             break;
 
         default:
