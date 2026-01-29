@@ -7,9 +7,29 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Handles reading from and writing to the file that stores tasks.
+ * <p>
+ * The <code>Storage</code> class is responsible for loading tasks from a file
+ * into memory and saving the current task list back to the file.
+ * <p>
+ * File operations may throw {@link IOException} if reading or writing fails.
+ *
+ * @see Task
+ * @see TaskList
+ */
 public class Storage {
+    /** The file path where tasks are stored */
     private final String filePath;
 
+    /**
+     * Creates a Storage object pointing to the given file path.
+     * <p>
+     * The file may or may not exist yet. No file operations are performed
+     * in the constructor.
+     *
+     * @param filePath the path to the file where tasks are stored
+     */
     public Storage(String filePath) {
         this.filePath = filePath;
     }
@@ -17,6 +37,17 @@ public class Storage {
     // IOException != File not exist / File is empty
     // IOException happens when scanner tries to scan
 
+    /**
+     * Loads tasks from the file specified in {@link #filePath}.
+     * <p>
+     * If the file does not exist, an empty list of tasks is returned.
+     * Each line in the file is converted into a {@link Task} object
+     * using {@link Task#fromFileString(String)}.
+     *
+     * @return an {@link ArrayList} of {@link Task} objects loaded from the file
+     * @throws IOException if an I/O error occurs while reading the file
+     * @see Task#fromFileString(String)
+     */
     public ArrayList<Task> load() throws IOException {
         ArrayList<Task> tasks = new ArrayList<>();
 
@@ -39,6 +70,20 @@ public class Storage {
     }
 
     // IOException when writing fails
+
+    /**
+     * Saves the current task list to the file specified in {@link #filePath}.
+     * <p>
+     * If the file does not exist, it will be created along with any missing
+     * parent directories. If it already exists, it will be overwritten.
+     * <p>
+     * Each {@link Task} in the {@link TaskList} is converted to a string
+     * using {@link Task#toFileString()} and written line by line.
+     *
+     * @param tasks the {@link TaskList} to save
+     * @throws IOException if an I/O error occurs while writing to the file
+     * @see Task#toFileString()
+     */
     public void save(TaskList tasks) throws IOException {
         File file = new File(filePath);
 
