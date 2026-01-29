@@ -10,44 +10,107 @@ import sun.ui.Ui;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+/**
+ * Represents a list of tasks in the Sun application.
+ * <p>
+ * Provides methods to add, remove, and retrieve tasks, as well as to mark
+ * them as done or not done. Also provides specialized methods to add
+ * {@link Todo}, {@link Deadline}, and {@link Event} tasks.
+ * <p>
+ * Handles input validation and prints status messages via {@link Ui}.
+ *
+ * @see Task
+ * @see Todo
+ * @see Deadline
+ * @see Event
+ * @see Ui
+ * @see DateTimeParser
+ */
 public class TaskList {
+    /** Internal storage for the tasks */
     private ArrayList<Task> tasks;
+    /** UI instance used to print messages */
     private Ui ui = new Ui();
 
+    /**
+     * Creates an empty TaskList.
+     */
     public TaskList() {
         this.tasks = new ArrayList<>();
     }
 
+    /**
+     * Creates a TaskList with an initial list of tasks.
+     *
+     * @param task an ArrayList of tasks to initialize the list with
+     */
     public TaskList(ArrayList<Task> task) {
         this.tasks = task;
     }
 
+    /**
+     * Returns the number of tasks in the list.
+     *
+     * @return the size of the task list
+     */
     public int sizeTasks() {
         return this.tasks.size();
     }
 
+    /**
+     * Returns the task at the specified index.
+     *
+     * @param index the index of the task (0-based)
+     * @return the task at the specified index
+     */
     public Task getTask(int index) {
         return this.tasks.get(index);
     }
 
+    /**
+     * Returns the internal list of tasks.
+     *
+     * @return the ArrayList of tasks
+     */
     public ArrayList<Task> getTasks() {
         return this.tasks;
     }
 
+    /**
+     * Adds a task to the task list.
+     *
+     * @param task the task to add
+     */
     public void addTask(Task task) {
         this.tasks.add(task);
     }
 
+    /**
+     * Removes the task at the specified index.
+     *
+     * @param index the index of the task to remove
+     * @return the removed task
+     */
     public Task removeTask(int index) {
         return this.tasks.remove(index);
     }
 
+    /**
+     * Prints all tasks in the task list to the user.
+     */
     public void printTasks() {
         for (int i = 0; i < this.sizeTasks(); i++)  {
             ui.printLine(String.format("%d. %s", i + 1, this.getTask(i)));
         }
     }
 
+    /**
+     * Marks or unmarks a task as done.
+     * <p>
+     * @param rest the task number as a string (1-based)
+     * @param isDone true to mark as done, false to mark as not done
+     * @throws InvalidTaskNumberException if the task number is missing, invalid, or out of range
+     */
     public void mark(String rest, boolean isDone)
             throws InvalidTaskNumberException {
         int index = this.parseTaskNumber(rest);
@@ -59,6 +122,13 @@ public class TaskList {
         ui.printLine(targetTask.toString());
     }
 
+    /**
+     * Adds a Todo task to the task list.
+     * <p>
+     * @param rest the description of the Todo
+     * @throws InvalidTodoException if the description is empty
+     * @see Todo
+     */
     public void addTodo(String rest)
             throws InvalidTodoException {
         // todoTask with no description
@@ -72,6 +142,14 @@ public class TaskList {
         printTaskAdded(todoTask);
     }
 
+    /**
+     * Adds a Deadline task to the task list.
+     * <p>
+     * @param rest the description and due date in the format "desc /by date"
+     * @throws InvalidDeadlineException if description or date is empty
+     * @see Deadline
+     * @see DateTimeParser#parseDateTime(String)
+     */
     public void addDeadline(String rest)
             throws InvalidDeadlineException {
         String[] parts = rest.split(" /by ", 2);
@@ -91,6 +169,14 @@ public class TaskList {
         printTaskAdded(deadlineTask);
     }
 
+    /**
+     * Adds an Event task to the task list.
+     * <p>
+     * @param rest the description and times in the format "desc /from start /to end"
+     * @throws InvalidEventException if description, start, or end times are empty
+     * @see Event
+     * @see DateTimeParser#parseDateTime(String)
+     */
     public void addEvent(String rest)
             throws InvalidEventException {
         String[] descriptionSplit = rest.split(" /from ", 2);
@@ -117,6 +203,12 @@ public class TaskList {
         printTaskAdded(eventTask);
     }
 
+    /**
+     * Deletes a task from the task list by its number.
+     * <p>
+     * @param rest the task number as a string (1-based)
+     * @throws InvalidTaskNumberException if the task number is missing, invalid, or out of range
+     */
     public void delete(String rest)
             throws InvalidTaskNumberException {
         int index = parseTaskNumber(rest);
@@ -131,6 +223,13 @@ public class TaskList {
 
 
     //Helper method
+    /**
+     * Parses a task number from a string.
+     * <p>
+     * @param rest the task number string (1-based)
+     * @return the zero-based index of the task
+     * @throws InvalidTaskNumberException if the task number is missing, invalid, or out of range
+     */
     private int parseTaskNumber(String rest)
             throws InvalidTaskNumberException {
         // No Task Number
@@ -155,6 +254,11 @@ public class TaskList {
     }
 
     //Helper method
+    /**
+     * Prints the task that has just been added.
+     * <p>
+     * @param task the task that was added
+     */
     private void printTaskAdded(Task task) {
         ui.printLine("Got it. I've added this task:");
         ui.printLine(task.toString());
