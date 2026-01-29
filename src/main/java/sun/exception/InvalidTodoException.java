@@ -9,5 +9,7 @@ package sun.exception;
  * @see sun.task.TaskList#addTodo(String)
  */
 public class InvalidTodoException extends Exception {
-    public InvalidTodoException(String message) { super(message); }
+    public InvalidTodoException(String message) {
+        super(message);
+    }
 }

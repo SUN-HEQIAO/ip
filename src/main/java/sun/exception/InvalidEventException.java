@@ -10,5 +10,7 @@ package sun.exception;
  * @see sun.task.TaskList#addEvent(String)
  */
 public class InvalidEventException extends Exception {
-    public InvalidEventException(String message) { super(message); }
+    public InvalidEventException(String message) {
+        super(message);
+    }
 }

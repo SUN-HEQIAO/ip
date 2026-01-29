@@ -10,5 +10,7 @@ package sun.exception;
  * @see sun.task.TaskList#addDeadline(String)
  */
 public class InvalidDeadlineException extends Exception {
-    public InvalidDeadlineException(String message) { super(message); }
+    public InvalidDeadlineException(String message) {
+        super(message);
+    }
 }
