@@ -11,12 +11,12 @@ import sun.ui.Ui;
 
 import java.io.IOException;
 
-public class Parser {
+public class InputParser {
     public static boolean isBye(String input) {
         return input.equalsIgnoreCase("bye");
     }
 
-    public static void parseInputs(String input, TaskList tasks, Storage storage, Ui ui)
+    public static void parseInput(String input, TaskList tasks, Storage storage, Ui ui)
             throws InvalidCommandException, InvalidTodoException, InvalidDeadlineException,
             InvalidEventException, InvalidTaskNumberException, IOException, IllegalArgumentException {
 

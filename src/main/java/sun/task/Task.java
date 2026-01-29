@@ -1,6 +1,6 @@
 package sun.task;
 
-import sun.parser.DateParser;
+import sun.parser.DateTimeParser;
 import java.time.LocalDateTime;
 
 public abstract class Task {
@@ -45,15 +45,15 @@ public abstract class Task {
                 return todo;
             case "D":
                 String byString = parts[3];
-                LocalDateTime byDateTime = DateParser.parse(byString);
+                LocalDateTime byDateTime = DateTimeParser.parseDateTime(byString);
                 Deadline deadline = new Deadline(description, byDateTime);
                 deadline.setIsDone(isDone);
                 return deadline;
             case "E":
                 String fromString = parts[3];
                 String toString = parts[4];
-                LocalDateTime fromDateTime = DateParser.parse(fromString);
-                LocalDateTime toDateTime = DateParser.parse(toString);
+                LocalDateTime fromDateTime = DateTimeParser.parseDateTime(fromString);
+                LocalDateTime toDateTime = DateTimeParser.parseDateTime(toString);
                 Event event = new Event(description, fromDateTime, toDateTime);
                 event.setIsDone(isDone);
                 return event;

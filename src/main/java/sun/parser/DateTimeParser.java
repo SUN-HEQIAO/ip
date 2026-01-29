@@ -5,21 +5,22 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Locale;
 
-public class DateParser {
+public class DateTimeParser {
     private static final DateTimeFormatter[] FORMATS = new DateTimeFormatter[] {
-            DateTimeFormatter.ofPattern("MMM dd yyyy HHmm"), // Load from "sun.txt" format
+            DateTimeFormatter.ofPattern("MMM dd yyyy HHmm"), // Loaded from "sun.txt" format
             DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"), // Reading user input format date WITH time
-            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"),
-            DateTimeFormatter.ofPattern("yyyy-MM-dd h:mma"),
+            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"), // Reading user input format date WITH time
+            DateTimeFormatter.ofPattern("yyyy-MM-dd h:mma"), // Reading user input format date WITH time
             DateTimeFormatter.ofPattern("yyyy-MM-dd"), // Reading user input format date WITHOUT time
             DateTimeFormatter.ofPattern("HHmm"), // Reading user input as time
-            DateTimeFormatter.ofPattern("HH:mm"),
-            DateTimeFormatter.ofPattern("h:mma"),
-            DateTimeFormatter.ofPattern("ha")
+            DateTimeFormatter.ofPattern("HH:mm"), // Reading user input as time
+            DateTimeFormatter.ofPattern("h:mma"), // Reading user input as time
+            DateTimeFormatter.ofPattern("ha") // Reading user input as time
     };
 
-    public static LocalDateTime parse(String input) {
+    public static LocalDateTime parseDateTime(String input) {
         for (DateTimeFormatter format : FORMATS) {
             try {
                 // Try parsing as LocalDateTime first
@@ -31,7 +32,7 @@ public class DateParser {
                     return date.atStartOfDay();
                 } catch (DateTimeParseException e2) {
                     // If that fails, try LocalTime and convert to LocalDateTime with today's date,
-                    // by combining LocalTime and LocalDate
+                    // by literally combining LocalTime and LocalDate
                     try {
                         LocalTime time = LocalTime.parse(input, format);
                         return LocalDate.now().atTime(time); // attach today's date
@@ -43,6 +44,12 @@ public class DateParser {
         }
 
         // If ALL formats don't match user input
-        throw new IllegalArgumentException("OOPS!!! Invalid date/time format. Please use: yyyy-MM-dd HHmm OR yyyy-MM-dd OR HHmm formatting.");
+        throw new IllegalArgumentException("""
+            OOPS!!! Invalid date/time format.
+            Please use:
+             - yyyy-MM-dd HHmm
+             - yyyy-MM-dd
+             - HHmm
+            """);
     }
 }
