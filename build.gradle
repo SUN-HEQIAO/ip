@@ -27,12 +27,17 @@ test {
     }
 }
 
+//application {
+//    mainClass.set("seedu.duke.Duke")
+//}
+
 application {
-    mainClass.set("seedu.duke.Duke")
+    mainClass.set("sun.Sun")
 }
 
 shadowJar {
-    archiveBaseName = "duke"
+    //archiveBaseName = "duke"
+    archiveBaseName = "sun"
     archiveClassifier = null
 }
 
