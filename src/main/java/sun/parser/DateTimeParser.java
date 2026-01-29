@@ -17,7 +17,7 @@ public class DateTimeParser {
             DateTimeFormatter.ofPattern("HHmm"), // Reading user input as time
             DateTimeFormatter.ofPattern("HH:mm"), // Reading user input as time
             DateTimeFormatter.ofPattern("h:mma"), // Reading user input as time
-            DateTimeFormatter.ofPattern("ha", Locale.US) // Reading user input as time
+            DateTimeFormatter.ofPattern("ha") // Reading user input as time
     };
 
     public static LocalDateTime parseDateTime(String input) {
