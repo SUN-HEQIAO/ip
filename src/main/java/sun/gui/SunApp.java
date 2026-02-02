@@ -3,12 +3,11 @@ package sun.gui;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -19,8 +18,13 @@ public class SunApp extends Application {
     private TextField userInput;
     private Button sendButton;
 
+    // Images
+    private Image userImage = new Image(this.getClass().getResourceAsStream("/images/User.png"));
+    private Image sunImage = new Image(this.getClass().getResourceAsStream("/images/Sun.png"));
+
     @Override
     public void start(Stage stage) {
+
         // Initialise Components
         scrollPane = new ScrollPane();
         dialogContainer = new VBox();
@@ -71,15 +75,15 @@ public class SunApp extends Application {
 
     private void handleUserInput() {
         String input = userInput.getText();
+
         if (input.isEmpty()) {
             return;
         }
 
-        // Add user message
-        dialogContainer.getChildren().add(new Label("You: " + input));
-
-        // Add simple bot echo
-        dialogContainer.getChildren().add(new Label("Sun: " + input));
+        dialogContainer.getChildren().addAll(
+                DialogBox.getUserDialog("User: " + input, userImage),
+                DialogBox.getSunDialog("Sun: " + input, sunImage)
+        );
 
         userInput.clear();
 
