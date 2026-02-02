@@ -76,7 +76,7 @@ public class Sun {
      * Starts the main loop of the application.
      * <p>
      * Displays a welcome message, reads user input continuously, parses
-     * and executes commands using {@link InputParser#parseInput(String, TaskList, Storage, Ui)},
+     * and executes commands using {@link InputParser#parseInput(String, TaskList, Storage)},
      * and prints responses via {@link Ui}.
      * <p>
      * The loop terminates when the user enters a "bye" command.
@@ -93,7 +93,7 @@ public class Sun {
      * </ul>
      * These exceptions are caught and displayed without stopping the loop.
      *
-     * @see InputParser#parseInput(String, TaskList, Storage, Ui)
+     * @see InputParser#parseInput(String, TaskList, Storage)
      */
     public void run() {
         ui.printWelcome();
@@ -112,11 +112,10 @@ public class Sun {
 
             // Process inputs
             try {
-                InputParser.parseInput(input, tasks, storage, ui);
-            } catch (InvalidCommandException | InvalidTaskNumberException |
-                     InvalidTodoException | InvalidDeadlineException |
-                     InvalidEventException | IOException | IllegalArgumentException |
-                     InvalidFindException e) {
+                InputParser.parseInput(input, tasks, storage);
+            } catch (InvalidCommandException | InvalidTaskNumberException | InvalidTodoException |
+                     InvalidDeadlineException | InvalidEventException | IOException |
+                     IllegalArgumentException | InvalidFindException e) {
                 ui.printError(e.getMessage());
             }
         }
@@ -136,4 +135,19 @@ public class Sun {
     public static void main(String[] args) {
         new Sun("./data/sun.txt").run();
     }
+
+
+
+//    public String getResponse(String input) {
+//        try {
+//            if (InputParser.isBye(input)) {
+//                return "Bye. Hope to see you again soon!";
+//            }
+//            return InputParser.parseInput(input, tasks, storage);
+//        } catch (InvalidCommandException | InvalidTaskNumberException | InvalidTodoException |
+//                 InvalidDeadlineException | InvalidEventException | IOException |
+//                 IllegalArgumentException | InvalidFindException e) {
+//            return e.getMessage();
+//        }
+//    }
 }

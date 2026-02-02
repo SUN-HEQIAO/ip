@@ -8,7 +8,6 @@ import sun.exception.InvalidDeadlineException;
 import sun.exception.InvalidEventException;
 import sun.storage.Storage;
 import sun.task.TaskList;
-import sun.ui.Ui;
 
 import java.io.IOException;
 
@@ -17,14 +16,13 @@ import java.io.IOException;
  * <p>
  * The <code>InputParser</code> interprets raw user input, determines
  * the command type, and executes the corresponding action on
- * {@link TaskList}, {@link Storage}, and {@link Ui}.
+ * {@link TaskList}, {@link Storage}
  * <p>
  * Commands include task management operations such as adding todos,
  * deadlines, events, marking/unmarking tasks, deleting tasks, and listing tasks.
  *
  * @see TaskList
  * @see Storage
- * @see Ui
  */
 public class InputParser {
     /**
@@ -61,7 +59,6 @@ public class InputParser {
      * @param input the raw user input string
      * @param tasks the {@link TaskList} to operate on
      * @param storage the {@link Storage} object for saving changes
-     * @param ui the {@link Ui} object for printing responses
      * @throws InvalidCommandException if the command is unknown
      * @throws InvalidTodoException if a todo task is invalid
      * @throws InvalidDeadlineException if a deadline task is invalid
@@ -71,7 +68,7 @@ public class InputParser {
      * @throws IllegalArgumentException if input parsing encounters an unexpected error
      * @throws InvalidFindException if a task to find is invalid
      */
-    public static void parseInput(String input, TaskList tasks, Storage storage, Ui ui)
+    public static void parseInput(String input, TaskList tasks, Storage storage)
             throws InvalidCommandException, InvalidTodoException, InvalidDeadlineException,
             InvalidEventException, InvalidTaskNumberException, IOException,
             IllegalArgumentException, InvalidFindException {

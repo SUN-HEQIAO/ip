@@ -1,4 +1,5 @@
-package sun.ui;// The UI class will take in user inputs, show user inputs, show errors.
+// The UI class will take in user inputs, show user inputs, show errors.
+package sun.ui;
 
 import java.util.Scanner;
 
