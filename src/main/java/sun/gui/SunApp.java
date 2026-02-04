@@ -1,5 +1,6 @@
 package sun.gui;
 
+import javafx.animation.PauseTransition;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -10,8 +11,10 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class SunApp extends Application {
+    private Stage stage;
 
     private ScrollPane scrollPane;
     private VBox dialogContainer;
@@ -22,8 +25,13 @@ public class SunApp extends Application {
     private Image userImage = new Image(this.getClass().getResourceAsStream("/images/User.png"));
     private Image sunImage = new Image(this.getClass().getResourceAsStream("/images/Sun.png"));
 
+    // SunBackend instance
+    private SunBackend sunBackend = new SunBackend();
+
     @Override
     public void start(Stage stage) {
+
+        this.stage = stage;
 
         // Initialise Components
         scrollPane = new ScrollPane();
@@ -74,20 +82,29 @@ public class SunApp extends Application {
     }
 
     private void handleUserInput() {
-        String input = userInput.getText();
+        String userInput = this.userInput.getText();
 
-        if (input.isEmpty()) {
+        if (userInput.isEmpty()) {
             return;
         }
 
+        String sunOutput = sunBackend.getResponse(userInput);
+
         dialogContainer.getChildren().addAll(
-                DialogBox.getUserDialog("User: " + input, userImage),
-                DialogBox.getSunDialog("Sun: " + input, sunImage)
+                DialogBox.getUserDialog("User:\n" + userInput, userImage),
+                DialogBox.getSunDialog("Sun:\n" +
+                        (sunOutput.equals("BYE_SIGNAL") ? "Bye. Hope to see you again soon!" : sunOutput), sunImage)
         );
 
-        userInput.clear();
+        this.userInput.clear();
 
+        if (sunOutput.equals("BYE_SIGNAL")) {
+            PauseTransition delay = new PauseTransition(Duration.seconds(1));
+            delay.setOnFinished(event -> stage.close());;
+            delay.play();
+        }
     }
+
     public static void main(String[] args) {
         launch(args);
     }

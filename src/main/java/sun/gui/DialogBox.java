@@ -40,15 +40,15 @@ public class DialogBox extends HBox {
     /**
      * Factory method for user dialog
      */
-    public static DialogBox getUserDialog(String input, Image userImage) {
-        return new DialogBox(input, userImage);
+    public static DialogBox getUserDialog(String userInput, Image userImage) {
+        return new DialogBox(userInput, userImage);
     }
 
     /**
      * Factory method for Duke dialog
      */
-    public static DialogBox getSunDialog(String output, Image sunImage) {
-        DialogBox dialogBox = new DialogBox(output, sunImage);
+    public static DialogBox getSunDialog(String sunOutput, Image sunImage) {
+        DialogBox dialogBox = new DialogBox(sunOutput, sunImage);
         dialogBox.flip();
         return dialogBox;
     }

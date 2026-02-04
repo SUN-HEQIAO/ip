@@ -125,6 +125,14 @@ public class TaskList {
         ui.printLine(targetTask.toString());
     }
 
+    public Task markAndReturn(String rest, boolean isDone)
+            throws InvalidTaskNumberException {
+        int index = this.parseTaskNumber(rest);
+        Task targetTask = this.getTask(index);
+        targetTask.setIsDone(isDone);
+        return targetTask;
+    }
+
     /**
      * Adds a Todo task to the task list.
      * <p>
@@ -143,6 +151,17 @@ public class TaskList {
         this.addTask(todoTask);
 
         printTaskAdded(todoTask);
+    }
+
+    public Task addTodoAndReturn(String rest)
+            throws InvalidTodoException {
+        if (rest.isEmpty()) {
+            throw new InvalidTodoException("OOPS!!! The description of a todo cannot be empty.");
+        }
+
+        Task todoTask = new Todo(rest);
+        this.addTask(todoTask);
+        return todoTask;
     }
 
     /**
@@ -172,6 +191,24 @@ public class TaskList {
         printTaskAdded(deadlineTask);
     }
 
+    public Task addDeadlineAndReturn(String rest)
+            throws InvalidDeadlineException {
+        String[] parts = rest.split(" /by ", 2);
+
+        if (parts.length < 2 || parts[0].isEmpty() || parts[1].isEmpty()) {
+            throw new InvalidDeadlineException("OOPS!!! The description or due date of a deadline cannot be empty.");
+        }
+
+        String description = parts[0];
+        String byString = parts[1];
+
+        LocalDateTime byDateTime = DateTimeParser.parseDateTime(byString);
+        Task deadlineTask = new Deadline(description, byDateTime);
+        this.addTask(deadlineTask);
+
+        return deadlineTask;
+    }
+
     /**
      * Adds an Event task to the task list.
      * <p>
@@ -199,12 +236,41 @@ public class TaskList {
 
         String from = fromSplit[0];
         String to = fromSplit[1];
+
         LocalDateTime fromDateTime = DateTimeParser.parseDateTime(from);
         LocalDateTime toDateTime = DateTimeParser.parseDateTime(to);
         Task eventTask = new Event(description, fromDateTime, toDateTime);
         this.addTask(eventTask);
 
         printTaskAdded(eventTask);
+    }
+
+    public Task addEventAndReturn(String rest)
+            throws InvalidEventException {
+        String[] descriptionSplit = rest.split(" /from ", 2);
+
+        // Event with no description or start
+        if (descriptionSplit.length < 2 || descriptionSplit[0].isEmpty() || descriptionSplit[1].isEmpty()) {
+            throw new InvalidEventException("OOPS!!! The description or start time of an event cannot be empty.");
+        }
+        String description = descriptionSplit[0];
+
+        String[] fromSplit = descriptionSplit[1].split(" /to ", 2);
+
+        // Event with no start or end
+        if (fromSplit.length < 2 || fromSplit[0].isEmpty() || fromSplit[1].isEmpty()) {
+            throw new InvalidEventException("OOPS!!! The start or end time of an event cannot be empty.");
+        }
+
+        String from = fromSplit[0];
+        String to = fromSplit[1];
+
+        LocalDateTime fromDateTime = DateTimeParser.parseDateTime(from);
+        LocalDateTime toDateTime = DateTimeParser.parseDateTime(to);
+        Task eventTask = new Event(description, fromDateTime, toDateTime);
+        this.addTask(eventTask);
+
+        return eventTask;
     }
 
     /**
@@ -222,6 +288,15 @@ public class TaskList {
         ui.printLine("Noted. I've removed this task:");
         ui.printLine(targetTask.toString());
         ui.printLine(String.format("Now you have %d tasks left", this.sizeTasks()));
+    }
+
+    public Task deleteAndReturn(String rest)
+            throws InvalidTaskNumberException {
+        int index = this.parseTaskNumber(rest);
+        Task targetTask = this.getTask(index);
+        this.removeTask(index);
+
+        return targetTask;
     }
 
     /**
@@ -255,6 +330,21 @@ public class TaskList {
         if (!found) {
             ui.printLine("No matching tasks found.");
         }
+    }
+
+    public ArrayList<Task> findAndReturn(String rest)
+            throws InvalidFindException {
+        if (rest.isEmpty()) {
+            throw new InvalidFindException("OOPS!!! Please provide task to find.");
+        }
+
+        ArrayList<Task> matches = new ArrayList<>();
+        for (Task task : this.getTasks()) {
+            if (task.getDescription().toLowerCase().contains(rest.toLowerCase())) {
+                matches.add(task);
+            }
+        }
+        return matches;
     }
 
 
