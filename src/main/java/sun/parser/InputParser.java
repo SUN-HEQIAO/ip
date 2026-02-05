@@ -83,7 +83,7 @@ public class InputParser {
 
         switch (command) {
         case "list":
-            tasks.printTasks();
+            tasks.listTasks();
             break;
 
         case "mark":

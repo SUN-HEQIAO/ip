@@ -12,7 +12,7 @@ import sun.exception.InvalidFindException;
 import sun.exception.InvalidTaskNumberException;
 import sun.exception.InvalidTodoException;
 import sun.task.Task;
-import sun.task.TaskList;
+
 
 public class SunBackend {
     private Sun sun;
@@ -31,15 +31,15 @@ public class SunBackend {
 
         switch (command) {
         case "list": {
-            StringBuilder builder = new StringBuilder();
-            TaskList tasks = sun.getTasks();
+            ArrayList<Task> tasks = sun.getTasks().listTasksAndReturn();
 
-            if (tasks.sizeTasks() == 0) {
-                return "Your task list is empty.";
+            if (tasks.isEmpty()) {
+                return "There are no tasks yet.";
             }
 
-            for (int i = 0; i < tasks.sizeTasks(); i++) {
-                builder.append(String.format("%d. %s\n", i + 1, tasks.getTask(i)));
+            StringBuilder builder = new StringBuilder("Here are the tasks in your list:\n");
+            for (int i = 0; i < tasks.size(); i++) {
+                builder.append(String.format("%d. %s\n", i + 1, tasks.get(i)));
             }
 
             return builder.toString();
@@ -70,14 +70,7 @@ public class SunBackend {
                 Task todoTask = sun.getTasks().addTodoAndReturn(rest);
                 sun.getStorage().save(sun.getTasks());
 
-                return String.format("""
-                                Got it. I've added this task:
-                                %s
-                                Now you have %d tasks in the list.
-                                """,
-                        todoTask,
-                        sun.getTasks().sizeTasks()
-                );
+                return printTaskAdded(todoTask);
             } catch (InvalidTodoException | IOException e) {
                 return e.getMessage();
             }
@@ -87,14 +80,7 @@ public class SunBackend {
             try {
                 Task deadLineTask = sun.getTasks().addDeadlineAndReturn(rest);
                 sun.getStorage().save(sun.getTasks());
-                return String.format("""
-                                ""
-                                Got it. I've added this task:
-                                %s
-                                Now you have %d tasks in the list.
-                                """,
-                        deadLineTask,
-                        sun.getTasks().sizeTasks());
+                return printTaskAdded(deadLineTask);
             } catch (InvalidDeadlineException | IOException e) {
                 return e.getMessage();
             }
@@ -104,14 +90,7 @@ public class SunBackend {
             try {
                 Task eventTask = sun.getTasks().addEventAndReturn(rest);
                 sun.getStorage().save(sun.getTasks());
-                return String.format("""
-                                ""
-                                Got it. I've added this task:
-                                %s
-                                Now you have %d tasks in the list.
-                                """,
-                        eventTask,
-                        sun.getTasks().sizeTasks());
+                return printTaskAdded(eventTask);
             } catch (InvalidEventException | IOException e) {
                 return e.getMessage();
             }
@@ -159,6 +138,16 @@ public class SunBackend {
             return "OOPS!!! I'm sorry, but I don't know what that command means :-(";
         }
         }
+    }
+
+    public String printTaskAdded(Task task) {
+        return String.format("""
+                                Noted. I've added this task:
+                                %s
+                                Now you have %d tasks in the list.
+                                """,
+                task,
+                sun.getTasks().sizeTasks());
     }
 }
 

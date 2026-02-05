@@ -30,7 +30,6 @@ public class SunApp extends Application {
 
     @Override
     public void start(Stage stage) {
-
         this.stage = stage;
 
         // Initialise Components
@@ -44,17 +43,18 @@ public class SunApp extends Application {
         AnchorPane mainLayout = new AnchorPane();
         mainLayout.getChildren().addAll(scrollPane, userInput, sendButton);
 
+        // Scene the stage
         Scene scene = new Scene(mainLayout, 400, 600);
         stage.setScene(scene);;
         stage.show();
 
-
         // Window settings
         stage.setTitle("Sun ChatBot");
         stage.setResizable(false);
-        stage.setMinHeight(600);
         stage.setMinWidth(400);
+        stage.setMinHeight(600);
 
+        // Component settings
         mainLayout.setPrefSize(400, 600);
         scrollPane.setPrefSize(385, 535);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
@@ -62,7 +62,7 @@ public class SunApp extends Application {
         scrollPane.setVvalue(1.0);
         scrollPane.setFitToWidth(true);
 
-        dialogContainer.setPrefHeight(Region.USE_COMPUTED_SIZE); // Make the VBox’s preferred height automatically fit its children, so it grows as we add messages.
+        dialogContainer.setPrefHeight(Region.USE_COMPUTED_SIZE);
         dialogContainer.heightProperty().addListener((observable) -> scrollPane.setVvalue(1.0));
 
         userInput.setPrefWidth(325);;

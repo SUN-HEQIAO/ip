@@ -1,5 +1,4 @@
 D | 0 | wash | Feb 02 2026 1700
-T | 0 | task
 D | 0 | bake | Feb 01 2026 0000
 T | 0 | problem
 D | 0 | type | Jan 03 2026 0000
