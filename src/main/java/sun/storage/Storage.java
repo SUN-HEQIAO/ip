@@ -64,6 +64,8 @@ public class Storage {
             while (scanner.hasNextLine()) {
                 tasks.add(Task.fromFileString(scanner.nextLine()));
             }
+        } catch (IOException e) {
+            throw new IOException("OOPS!!! Failed to load tasks from file.");
         }
 
         return tasks;
@@ -93,7 +95,9 @@ public class Storage {
         //"parent != null" just means there is a folder in the filePath String
         //After that, "!parent.exists()" checks if the folder exists physically on disk, and "mkdirs()" creates it if missing.
         if (parent != null && !parent.exists()) {
-            parent.mkdirs();
+            if (!parent.mkdirs()) {
+                throw new IOException("OOPS!!! Failed to create folder for saving tasks.");
+            }
         }
 
         // FileWriter creates the file if it doesn't exist, else, it overwrites the file
@@ -102,6 +106,8 @@ public class Storage {
                 writer.write(task.toFileString());
                 writer.write(System.lineSeparator());
             }
+        } catch (IOException e) {
+            throw new IOException("OOPS!!! Something went wrong while saving your tasks.");
         }
     }
 }

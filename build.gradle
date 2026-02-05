@@ -11,6 +11,13 @@ repositories {
 dependencies {
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.10.0'
     testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.10.0'
+
+    //Added for JavaFX
+    String javaFxVersion = '17.0.7'
+
+    implementation group: 'org.openjfx', name: 'javafx-base', version: javaFxVersion, classifier: 'win'
+    implementation group: 'org.openjfx', name: 'javafx-controls', version: javaFxVersion, classifier: 'win'
+    implementation group: 'org.openjfx', name: 'javafx-graphics', version: javaFxVersion, classifier: 'win'
 }
 
 test {
@@ -27,20 +34,27 @@ test {
     }
 }
 
-//application {
-//    mainClass.set("seedu.duke.Duke")
-//}
 
 application {
-    mainClass.set("sun.Sun")
+    mainClass.set("sun.gui.SunApp")
 }
 
 shadowJar {
-    //archiveBaseName = "duke"
     archiveBaseName = "sun"
     archiveClassifier = null
+
+    //Added for JavaFX
+    manifest {
+        attributes 'Main-Class': 'sun.gui.SunApp'
+    }
 }
 
 run{
     standardInput = System.in
+
+    //Added for JavaFX
+    jvmArgs = [
+            '--module-path', classpath.asPath,
+            '--add-modules', 'javafx.controls,javafx.graphics,javafx.base'
+    ]
 }
