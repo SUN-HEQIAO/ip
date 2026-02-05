@@ -44,6 +44,11 @@ public class SunApp extends Application {
         AnchorPane mainLayout = new AnchorPane();
         mainLayout.getChildren().addAll(scrollPane, userInput, sendButton);
 
+        // Welcome Message
+        dialogContainer.getChildren().add(
+                DialogBox.getSunDialog("Hello! I'm Sun.\nWhat can I do for you?", sunImage)
+        );
+
         // Scene the stage
         Scene scene = new Scene(mainLayout, 400, 600);
         stage.setScene(scene);;
