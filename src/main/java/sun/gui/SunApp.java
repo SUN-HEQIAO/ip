@@ -12,6 +12,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import sun.SunCli;
 
 public class SunApp extends Application {
     private Stage stage;
@@ -107,5 +108,13 @@ public class SunApp extends Application {
 
     public static void main(String[] args) {
         launch(args);
+//        try {
+//            launch(args);
+//        } catch (Throwable e) {
+//            System.err.println("GUI failed to start. Falling back to CLI...");
+//            System.err.println(e.getMessage());
+//
+//            SunCli.main(args);
+//        }
     }
 }
