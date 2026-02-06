@@ -13,13 +13,15 @@ import sun.parser.InputParser;
 import sun.ui.Ui;
 
 public class SunCli {
-    public static void main(String[] args) {
-        Ui ui = new Ui();
-        Sun sun = new Sun("./data/sun.txt");
+    private Ui ui;
+    private Sun sun;
 
-        // By this time:
-        // sun's Storage and TaskList attribute has been initialized.
+    public SunCli(String filePath) {
+        this.ui = new Ui();
+        this.sun = new Sun(filePath);
+    }
 
+    public void run() {
         ui.printWelcome();
 
         while (true) {
@@ -45,5 +47,9 @@ public class SunCli {
         }
 
         ui.printBye();
+    }
+
+    public static void main(String[] args) {
+        new SunCli("./data/sun.txt").run();
     }
 }

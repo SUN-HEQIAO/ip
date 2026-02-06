@@ -2,6 +2,8 @@ plugins {
     id 'java'
     id 'application'
     id 'com.github.johnrengelman.shadow' version '7.1.2'
+    //Added for JavaFX
+    id 'org.openjfx.javafxplugin' version '0.0.13'
 }
 
 repositories {
@@ -12,12 +14,29 @@ dependencies {
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.10.0'
     testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.10.0'
 
-    //Added for JavaFX
-    String javaFxVersion = '17.0.7'
+    //Added for JavaFX (does not work)
+//    String javaFxVersion = '17.0.7'
+//
+//    implementation group: 'org.openjfx', name: 'javafx-base', version: javaFxVersion, classifier: 'win'
+//    implementation group: 'org.openjfx', name: 'javafx-controls', version: javaFxVersion, classifier: 'win'
+//    implementation group: 'org.openjfx', name: 'javafx-fxml', version: javaFxVersion, classifier: 'win'
+//    implementation group: 'org.openjfx', name: 'javafx-graphics', version: javaFxVersion, classifier: 'win'
+//
+//    implementation group: 'org.openjfx', name: 'javafx-base', version: javaFxVersion, classifier: 'mac'
+//    implementation group: 'org.openjfx', name: 'javafx-controls', version: javaFxVersion, classifier: 'mac'
+//    implementation group: 'org.openjfx', name: 'javafx-fxml', version: javaFxVersion, classifier: 'mac'
+//    implementation group: 'org.openjfx', name: 'javafx-graphics', version: javaFxVersion, classifier: 'mac'
+//
+//    implementation group: 'org.openjfx', name: 'javafx-base', version: javaFxVersion, classifier: 'linux'
+//    implementation group: 'org.openjfx', name: 'javafx-controls', version: javaFxVersion, classifier: 'linux'
+//    implementation group: 'org.openjfx', name: 'javafx-fxml', version: javaFxVersion, classifier: 'linux'
+//    implementation group: 'org.openjfx', name: 'javafx-graphics', version: javaFxVersion, classifier: 'linux'
+}
 
-    implementation group: 'org.openjfx', name: 'javafx-base', version: javaFxVersion, classifier: 'win'
-    implementation group: 'org.openjfx', name: 'javafx-controls', version: javaFxVersion, classifier: 'win'
-    implementation group: 'org.openjfx', name: 'javafx-graphics', version: javaFxVersion, classifier: 'win'
+//Added for JavaFX
+javafx {
+    version = "17.0.7"
+    modules = [ 'javafx.controls', 'javafx.fxml' ]
 }
 
 test {
@@ -34,7 +53,6 @@ test {
     }
 }
 
-
 application {
     mainClass.set("sun.gui.SunApp")
 }
@@ -42,19 +60,9 @@ application {
 shadowJar {
     archiveBaseName = "sun"
     archiveClassifier = null
-
-    //Added for JavaFX
-    manifest {
-        attributes 'Main-Class': 'sun.gui.SunApp'
-    }
 }
 
 run{
     standardInput = System.in
-
-    //Added for JavaFX
-    jvmArgs = [
-            '--module-path', classpath.asPath,
-            '--add-modules', 'javafx.controls,javafx.graphics,javafx.base'
-    ]
 }
+

@@ -119,7 +119,7 @@ public class SunApp extends Application {
 //            System.err.println("GUI failed to start. Falling back to CLI...");
 //            System.err.println(e.getMessage());
 //
-//            SunCli.main(args);
+//            new SunCli("./data/sun.txt").run();
 //        }
     }
 }

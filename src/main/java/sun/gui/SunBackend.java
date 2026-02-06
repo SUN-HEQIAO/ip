@@ -31,7 +31,7 @@ public class SunBackend {
 
         switch (command) {
         case "list": {
-            ArrayList<Task> tasks = sun.getTasks().listTasksAndReturn();
+            ArrayList<Task> tasks = sun.getTasks().listTasks(false);
 
             if (tasks.isEmpty()) {
                 return "There are no tasks yet.";
@@ -47,7 +47,7 @@ public class SunBackend {
 
         case "mark": {
             try {
-                Task targetTask = sun.getTasks().markAndReturn(rest, true);
+                Task targetTask = sun.getTasks().mark(rest, true, false);
                 sun.getStorage().save(sun.getTasks());
                 return String.format("Nice! I've marked this task as done:\n%s", targetTask);
             } catch (InvalidTaskNumberException | IOException e) {
@@ -57,7 +57,7 @@ public class SunBackend {
 
         case "unmark": {
             try {
-                Task targetTask = sun.getTasks().markAndReturn(rest, false);
+                Task targetTask = sun.getTasks().mark(rest, false, false);
                 sun.getStorage().save(sun.getTasks());
                 return String.format("OK, I've marked this task as not done yet:\n%s", targetTask);
             } catch (InvalidTaskNumberException | IOException e) {
@@ -67,7 +67,7 @@ public class SunBackend {
 
         case "todo": {
             try {
-                Task todoTask = sun.getTasks().addTodoAndReturn(rest);
+                Task todoTask = sun.getTasks().addTodo(rest, false);
                 sun.getStorage().save(sun.getTasks());
 
                 return printTaskAdded(todoTask);
@@ -78,7 +78,7 @@ public class SunBackend {
 
         case "deadline": {
             try {
-                Task deadLineTask = sun.getTasks().addDeadlineAndReturn(rest);
+                Task deadLineTask = sun.getTasks().addDeadline(rest, false);
                 sun.getStorage().save(sun.getTasks());
                 return printTaskAdded(deadLineTask);
             } catch (InvalidDeadlineException | IOException e) {
@@ -88,7 +88,7 @@ public class SunBackend {
 
         case "event": {
             try {
-                Task eventTask = sun.getTasks().addEventAndReturn(rest);
+                Task eventTask = sun.getTasks().addEvent(rest, false);
                 sun.getStorage().save(sun.getTasks());
                 return printTaskAdded(eventTask);
             } catch (InvalidEventException | IOException e) {
@@ -98,7 +98,7 @@ public class SunBackend {
 
         case "delete": {
             try {
-                Task targetTask = sun.getTasks().deleteAndReturn(rest);
+                Task targetTask = sun.getTasks().delete(rest, false);
                 sun.getStorage().save(sun.getTasks());
                 return String.format("""
                                 Noted. I've removed this task:
@@ -114,7 +114,7 @@ public class SunBackend {
 
         case "find": {
             try {
-                ArrayList<Task> matches = sun.getTasks().findAndReturn(rest);
+                ArrayList<Task> matches = sun.getTasks().find(rest, false);
                 if (matches.isEmpty()) {
                     return "No matching tasks found.";
                 }

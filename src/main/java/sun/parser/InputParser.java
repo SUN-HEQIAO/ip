@@ -32,41 +32,41 @@ public class InputParser {
 
         switch (command) {
         case "list":
-            tasks.listTasks();
+            tasks.listTasks(true);
             break;
 
         case "mark":
-            tasks.mark(rest, true);
+            tasks.mark(rest, true, true);
             storage.save(tasks);
             break;
 
         case "unmark":
-            tasks.mark(rest, false);
+            tasks.mark(rest, false, true);
             storage.save(tasks);
             break;
 
         case "todo":
-            tasks.addTodo(rest);
+            tasks.addTodo(rest, true);
             storage.save(tasks);
             break;
 
         case "deadline":
-            tasks.addDeadline(rest);
+            tasks.addDeadline(rest, true);
             storage.save(tasks);
             break;
 
         case "event":
-            tasks.addEvent(rest);
+            tasks.addEvent(rest, true);
             storage.save(tasks);
             break;
 
         case "delete":
-            tasks.delete(rest);
+            tasks.delete(rest, true);
             storage.save(tasks);
             break;
 
         case "find":
-            tasks.find(rest);
+            tasks.find(rest, true);
             break;
 
         default:
