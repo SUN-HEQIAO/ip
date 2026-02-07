@@ -1,13 +1,18 @@
 package sun.gui;
 
+import javafx.animation.PauseTransition;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class SunAppController {
+
+    private Stage stage;
 
     @FXML
     private ScrollPane scrollPane;
@@ -27,6 +32,10 @@ public class SunAppController {
             new Image(getClass().getResourceAsStream("/images/User.png"));
     private final Image sunImage =
             new Image(getClass().getResourceAsStream("/images/Sun.png"));
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
 
     @FXML
     public void initialize() {
@@ -62,6 +71,12 @@ public class SunAppController {
                                 : response,
                         sunImage)
         );
+
+        if ("BYE_SIGNAL".equals(response)) {
+            PauseTransition delay = new PauseTransition(Duration.seconds(1));
+            delay.setOnFinished(event -> stage.close());
+            delay.play();
+        }
 
         userInput.clear();
     }

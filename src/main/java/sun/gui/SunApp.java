@@ -22,6 +22,7 @@ public class SunApp extends Application {
             // Inject backend into controller
             SunAppController controller = fxmlLoader.getController();
             controller.setSunBackend(sunBackend);
+            controller.setStage(stage);
 
             stage.setScene(scene);
             stage.setTitle("Sun ChatBot");
