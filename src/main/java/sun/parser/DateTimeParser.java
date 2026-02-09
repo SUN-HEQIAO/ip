@@ -85,7 +85,7 @@ public class DateTimeParser {
             }
         }
 
-        // If ALL formats don't match user input
+        // If ALL formats DON'T match user input
         throw new IllegalArgumentException("""
             OOPS!!! Invalid date/time format.
             Please use:

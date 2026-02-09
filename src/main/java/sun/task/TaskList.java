@@ -71,7 +71,7 @@ public class TaskList {
         assert index >= 0 && index < this.sizeTasks() : "Parsed task index should be valid";
 
         Task targetTask = this.getTask(index);
-        assert targetTask != null : "Target task should exit";
+        assert targetTask != null : "Target task should exist";
 
         targetTask.setIsDone(isDone);
 
