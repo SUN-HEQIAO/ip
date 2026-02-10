@@ -35,6 +35,7 @@ public class Storage {
      */
     public Storage(String filePath) {
         this.filePath = filePath;
+        assert this.filePath != null && !this.filePath.isEmpty() : "Storage filePath should never be null or empty";
     }
 
     // IOException != File not exist / File is empty
@@ -65,7 +66,9 @@ public class Storage {
 
         try (Scanner scanner = new Scanner(file)) {
             while (scanner.hasNextLine()) {
-                tasks.add(Task.fromFileString(scanner.nextLine()));
+                Task task = Task.fromFileString(scanner.nextLine());
+                assert task != null : "Task.fromFileString should never return null";
+                tasks.add(task);
             }
         } catch (IOException e) {
             throw new IOException("OOPS!!! Failed to load tasks from file.");
@@ -106,6 +109,8 @@ public class Storage {
         // FileWriter creates the file if it doesn't exist, else, it overwrites the file
         try (FileWriter writer = new FileWriter(filePath)) {
             for (Task task : tasks.getTasks()) {
+                assert task != null : "Tasks inside TaskList should never be null";
+
                 writer.write(task.toFileString());
                 writer.write(System.lineSeparator());
             }
