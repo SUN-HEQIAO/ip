@@ -44,7 +44,7 @@ public abstract class Task {
      *
      * @return "X" if done, " " otherwise
      */
-    public String getIsDone() {
+    public String getIsDoneAsX() {
         return this.isDone ? "X" : " ";
     }
 
@@ -64,7 +64,7 @@ public abstract class Task {
      */
     @Override
     public String toString() {
-        return String.format("[%s] %s", this.getIsDone(), this.description);
+        return String.format("[%s] %s", this.getIsDoneAsX(), this.description);
     }
 
     /**
@@ -108,17 +108,23 @@ public abstract class Task {
             return todo;
         case "D":
             String by = parts[3];
+
             LocalDateTime byDateTime = DateTimeParser.parseDateTime(by);
+
             Deadline deadline = new Deadline(description, byDateTime);
             deadline.setIsDone(isDone);
+
             return deadline;
         case "E":
             String from = parts[3];
             String to = parts[4];
+
             LocalDateTime fromDateTime = DateTimeParser.parseDateTime(from);
             LocalDateTime toDateTime = DateTimeParser.parseDateTime(to);
+
             Event event = new Event(description, fromDateTime, toDateTime);
             event.setIsDone(isDone);
+
             return event;
         default:
             throw new IllegalArgumentException(String.format("OOPS!!! Unknown task type: %s", type));

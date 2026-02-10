@@ -55,7 +55,7 @@ public class Deadline extends Task {
      */
     @Override
     public String toFileString() {
-        return String.format("D | %d | %s | %s", this.getIsDone().equals("X") ? 1 : 0, this.getDescription(),
+        return String.format("D | %d | %s | %s", this.getIsDoneAsX().equals("X") ? 1 : 0, this.getDescription(),
                 this.by.format(OUTPUT_FORMAT));
     }
 

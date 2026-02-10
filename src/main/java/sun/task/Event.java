@@ -60,7 +60,7 @@ public class Event extends Task {
      */
     @Override
     public String toFileString() {
-        return String.format("E | %d | %s | %s | %s", this.getIsDone().equals("X") ? 1 : 0, this.getDescription(),
+        return String.format("E | %d | %s | %s | %s", this.getIsDoneAsX().equals("X") ? 1 : 0, this.getDescription(),
                 this.from.format(OUTPUT_FORMAT), this.to.format(OUTPUT_FORMAT));
     }
 }

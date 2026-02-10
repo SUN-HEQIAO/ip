@@ -23,12 +23,12 @@ public class InputParser {
             IllegalArgumentException, InvalidFindException {
 
         // Clean up user inputs
-        input = input.trim().replaceAll("\\s+", " ");
+        input = normalizeInput(input);
 
         // Only split into 2 parts first
-        String[] inputs = input.split(" ", 2);
-        String command = inputs[0].toLowerCase();
-        String rest = (inputs.length > 1) ? inputs[1] : "";
+        String[] splits = splitInput(input);
+        String command = splits[0];
+        String rest = splits[1];
 
         switch (command) {
         case "list":
@@ -72,5 +72,21 @@ public class InputParser {
         default:
             throw new InvalidCommandException("OOPS!!! I'm sorry, but I don't know what that command means :-(");
         }
+    }
+
+
+
+    // Helper Method
+    private static String normalizeInput(String input) {
+        return input.trim().replaceAll("\\s+", " ");
+    }
+
+    // Helper method
+    private static String[] splitInput(String input) {
+        String[] inputs = input.split(" ", 2);
+        String command = inputs[0].toLowerCase();
+        String rest = (inputs.length > 1) ? inputs[1] : "";
+
+        return new String[] { command, rest };
     }
 }
