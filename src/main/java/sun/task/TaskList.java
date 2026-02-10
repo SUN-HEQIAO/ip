@@ -18,9 +18,11 @@ public class TaskList {
 
     public TaskList() {
         this.tasks = new ArrayList<>();
+        assert this.tasks != null : "Task list should be initialised";
     }
 
     public TaskList(ArrayList<Task> task) {
+        assert task != null : "Task list passed in should not be null";
         this.tasks = task;
     }
 
@@ -50,6 +52,11 @@ public class TaskList {
             throws InvalidTaskNumberException {
         int index = this.parseTaskNumber(rest);
         Task targetTask = tasks.get(index);
+        assert index >= 0 && index < this.sizeTasks() : "Parsed task index should be valid";
+
+        Task targetTask = tasks.get(index);
+        assert targetTask != null : "Target task should exist";
+
         targetTask.setIsDone(isDone);
 
         if (printOutput) {
@@ -66,8 +73,12 @@ public class TaskList {
             throw new InvalidTodoException("OOPS!!! The description of a todo cannot be empty.");
         }
 
+        int oldSize = this.sizeTasks();
+
         Task todoTask = new Todo(rest);
         tasks.add(todoTask);
+
+        assert this.sizeTasks() == oldSize + 1 : "Task list should increase by 1 after adding a todo task";
 
         if (printOutput) {
             printTaskAdded(todoTask);
@@ -125,9 +136,13 @@ public class TaskList {
 
     public Task delete(String rest, boolean printOutput)
             throws InvalidTaskNumberException {
+        int oldSize = this.sizeTasks();
+
         int index = this.parseTaskNumber(rest);
         Task targetTask = tasks.get(index);
         tasks.remove(index);
+
+        assert this.sizeTasks() == oldSize - 1 : "Task list size should decrease by 1 after deletion";
 
         if (printOutput) {
             printTaskRemoved(targetTask);
