@@ -45,8 +45,8 @@ public class SunAppController {
     }
 
     /** Inject SunBackend from SunApp */
-    public void setSunBackend(SunGui backend) {
-        this.sunGui = backend;
+    public void setSunGui(SunGui sunGui) {
+        this.sunGui = sunGui;
     }
 
     @FXML

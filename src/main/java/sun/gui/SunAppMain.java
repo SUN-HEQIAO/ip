@@ -1,5 +1,7 @@
 package sun.gui;
 
+import java.io.IOException;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -20,7 +22,7 @@ public class SunAppMain extends Application {
 
             // Inject backend into controller
             SunAppController controller = fxmlLoader.getController();
-            controller.setSunBackend(sunGui);
+            controller.setSunGui(sunGui);
             controller.setStage(stage);
 
             stage.setScene(scene);
@@ -28,7 +30,7 @@ public class SunAppMain extends Application {
             stage.setResizable(false);
             stage.show();
 
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
