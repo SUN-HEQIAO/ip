@@ -24,7 +24,7 @@ public class SunAppController {
     @FXML
     private Button sendButton;
 
-    private SunBackend sunBackend;
+    private SunGui sunGui;
 
     private Stage stage;
 
@@ -45,8 +45,8 @@ public class SunAppController {
     }
 
     /** Inject SunBackend from SunApp */
-    public void setSunBackend(SunBackend backend) {
-        this.sunBackend = backend;
+    public void setSunBackend(SunGui backend) {
+        this.sunGui = backend;
     }
 
     @FXML
@@ -57,7 +57,7 @@ public class SunAppController {
             return;
         }
 
-        String response = sunBackend.getResponse(input);
+        String response = sunGui.getResponse(input);
 
         dialogContainer.getChildren().addAll(
                 DialogBox.getUserDialog(input, userImage),

@@ -15,10 +15,10 @@ import sun.parser.InputParser;
 import sun.task.Task;
 
 
-public class SunBackend {
+public class SunGui {
     private Sun sun;
 
-    public SunBackend() {
+    public SunGui() {
         this.sun = new Sun("./data/sun.txt");
     }
 

@@ -6,21 +6,21 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-public class SunApp extends Application {
+public class SunAppMain extends Application {
 
-    private SunBackend sunBackend = new SunBackend();
+    private SunGui sunGui = new SunGui();
 
     @Override
     public void start(Stage stage) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(SunApp.class.getResource("/sun/view/SunAppView.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(SunAppMain.class.getResource("/sun/view/SunAppView.fxml"));
 
             AnchorPane root = fxmlLoader.load();
             Scene scene = new Scene(root);
 
             // Inject backend into controller
             SunAppController controller = fxmlLoader.getController();
-            controller.setSunBackend(sunBackend);
+            controller.setSunBackend(sunGui);
             controller.setStage(stage);
 
             stage.setScene(scene);

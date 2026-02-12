@@ -1,8 +1,13 @@
 // CLI → SunCli + Ui
+//SunCli only deals with user interaction.
+//Sun handles task operations and storage via "sun" instance
+//This keeps CLI separate from logic: SunCli just interacts with the user, delegates all task operations to Sun.
+
 // GUI → SunBackend + JavaFX
 package sun;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import sun.exception.InvalidCommandException;
 import sun.exception.InvalidFindException;
@@ -11,6 +16,7 @@ import sun.exception.InvalidTodoException;
 import sun.exception.InvalidDeadlineException;
 import sun.exception.InvalidEventException;
 import sun.parser.InputParser;
+import sun.task.Task;
 import sun.ui.Ui;
 
 public class SunCli {
@@ -47,7 +53,7 @@ public class SunCli {
 
                 switch (command) {
                 case "list":
-                    var allTasks = sun.getTasks().listTasks();
+                    ArrayList<Task> allTasks = sun.getTasks().listTasks();
 
                     if (allTasks.isEmpty()) {
                         ui.printLine("There are no tasks yet.");
@@ -58,7 +64,7 @@ public class SunCli {
                     break;
 
                 case "mark":
-                    var markTask  = sun.getTasks().mark(rest, true);
+                    Task markTask  = sun.getTasks().mark(rest, true);
                     sun.getStorage().save(sun.getTasks());
 
                     ui.printMarkedMessage(markTask, true);
@@ -66,7 +72,7 @@ public class SunCli {
                     break;
 
                 case "unmark":
-                    var unmarkTask = sun.getTasks().mark(rest, false);
+                    Task unmarkTask = sun.getTasks().mark(rest, false);
                     sun.getStorage().save(sun.getTasks());
 
                     ui.printMarkedMessage(unmarkTask, true);
@@ -74,7 +80,7 @@ public class SunCli {
                     break;
 
                 case "todo":
-                    var todoTask = sun.getTasks().addTodo(rest);
+                    Task todoTask = sun.getTasks().addTodo(rest);
                     sun.getStorage().save(sun.getTasks());
 
                     ui.printTaskAdded(todoTask, sun.getTasks().size());
@@ -82,7 +88,7 @@ public class SunCli {
                     break;
 
                 case "deadline":
-                    var deadlineTask = sun.getTasks().addDeadline(rest);
+                    Task deadlineTask = sun.getTasks().addDeadline(rest);
                     sun.getStorage().save(sun.getTasks());
 
                     ui.printTaskAdded(deadlineTask, sun.getTasks().size());
@@ -90,7 +96,7 @@ public class SunCli {
                     break;
 
                 case "event":
-                    var eventTask = sun.getTasks().addEvent(rest);
+                    Task eventTask = sun.getTasks().addEvent(rest);
                     sun.getStorage().save(sun.getTasks());
 
                     ui.printTaskAdded(eventTask, sun.getTasks().size());
@@ -98,7 +104,7 @@ public class SunCli {
                     break;
 
                 case "delete":
-                    var deleteTask = sun.getTasks().delete(rest);
+                    Task deleteTask = sun.getTasks().delete(rest);
                     sun.getStorage().save(sun.getTasks());
 
                     ui.printTaskRemoved(deleteTask, sun.getTasks().size());
@@ -106,7 +112,7 @@ public class SunCli {
                     break;
 
                 case "find":
-                    var matches = sun.getTasks().find(rest);
+                    ArrayList<Task> matches = sun.getTasks().find(rest);
 
                     if (matches.isEmpty()) {
                         ui.printLine("No matching tasks found.");

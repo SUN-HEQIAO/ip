@@ -42,7 +42,7 @@ test {
 }
 
 application {
-    mainClass.set("sun.gui.Launcher")
+    mainClass.set("sun.gui.SunAppLauncher")
 }
 
 shadowJar {
