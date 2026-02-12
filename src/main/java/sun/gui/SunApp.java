@@ -13,8 +13,7 @@ public class SunApp extends Application {
     @Override
     public void start(Stage stage) {
         try {
-            FXMLLoader fxmlLoader =
-                    new FXMLLoader(SunApp.class.getResource("/sun/view/SunApp.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(SunApp.class.getResource("/sun/view/SunAppView.fxml"));
 
             AnchorPane root = fxmlLoader.load();
             Scene scene = new Scene(root);

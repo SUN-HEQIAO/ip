@@ -1,7 +1,10 @@
 // The UI class will take in user inputs, show user inputs, show errors.
 package sun.ui;
 
+import java.util.ArrayList;
 import java.util.Scanner;
+
+import sun.task.Task;
 
 /**
  * Handles all input and output interactions with the user.
@@ -75,5 +78,36 @@ public class Ui {
      */
     public void printBye() {
         System.out.println("Bye. Hope to see you again soon!");
+    }
+
+    public void printTaskAdded(Task task, int totalTasks) {
+        printLine("Got it. I've added this task:");
+        printLine(task.toString());
+        printLine("Now you have " + totalTasks + " tasks in the list.");
+    }
+
+    public void printTaskList(ArrayList<Task> tasks) {
+        printLine("Here are the tasks in your list:");
+        for (int i = 0; i < tasks.size(); i++) {
+            printLine(String.format("%d. %s", i + 1, tasks.get(i)));
+        }
+    }
+
+    public void printFoundTaskList(ArrayList<Task> tasks) {
+        printLine("Here are the matching tasks in your list:");
+        for (int i = 0; i < tasks.size(); i++) {
+            printLine(String.format("%d. %s", i + 1, tasks.get(i)));
+        }
+    }
+
+    public void printMarkedMessage(Task task, boolean isDone) {
+        printLine(isDone ? "Nice! I've marked this task as done:" : "OK, I've marked this task as not done yet:");
+        printLine(task.toString());
+    }
+
+    public void printTaskRemoved(Task targetTask, int totalTasks) {
+        printLine("Noted. I've removed this task:");
+        printLine(targetTask.toString());
+        printLine(String.format("Now you have %d tasks left", totalTasks));
     }
 }

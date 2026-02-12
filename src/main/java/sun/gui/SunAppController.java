@@ -12,8 +12,6 @@ import javafx.util.Duration;
 
 public class SunAppController {
 
-    private Stage stage;
-
     @FXML
     private ScrollPane scrollPane;
 
@@ -28,10 +26,10 @@ public class SunAppController {
 
     private SunBackend sunBackend;
 
-    private final Image userImage =
-            new Image(getClass().getResourceAsStream("/images/User.png"));
-    private final Image sunImage =
-            new Image(getClass().getResourceAsStream("/images/Sun.png"));
+    private Stage stage;
+
+    private final Image userImage = new Image(getClass().getResourceAsStream("/images/User.png"));
+    private final Image sunImage = new Image(getClass().getResourceAsStream("/images/Sun.png"));
 
     public void setStage(Stage stage) {
         this.stage = stage;
@@ -42,9 +40,7 @@ public class SunAppController {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
 
         dialogContainer.getChildren().add(
-                DialogBox.getSunDialog(
-                        "Hello! I'm Sun.\nWhat can I do for you?",
-                        sunImage)
+                DialogBox.getSunDialog("Hello! I'm Sun.\nWhat can I do for you?", sunImage)
         );
     }
 
@@ -65,10 +61,9 @@ public class SunAppController {
 
         dialogContainer.getChildren().addAll(
                 DialogBox.getUserDialog(input, userImage),
-                DialogBox.getSunDialog(
-                        response.equals("BYE_SIGNAL")
-                                ? "Bye. Hope to see you again soon!"
-                                : response,
+                DialogBox.getSunDialog(response.equals("BYE_SIGNAL")
+                        ? "Bye. Hope to see you again soon!"
+                        : response,
                         sunImage)
         );
 

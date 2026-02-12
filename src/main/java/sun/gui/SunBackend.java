@@ -11,6 +11,7 @@ import sun.exception.InvalidEventException;
 import sun.exception.InvalidFindException;
 import sun.exception.InvalidTaskNumberException;
 import sun.exception.InvalidTodoException;
+import sun.parser.InputParser;
 import sun.task.Task;
 
 
@@ -22,121 +23,60 @@ public class SunBackend {
     }
 
     public String getResponse(String input) {
-        input = input.trim().replaceAll("\\s+", " ");
+        String normalizedInput = InputParser.normalizeInput(input);
 
-        // Only split into 2 parts first
-        String[] inputs = input.split(" ", 2);
-        String command = inputs[0].toLowerCase();
-        String rest = (inputs.length > 1) ? inputs[1] : "";
+        String[] splits = InputParser.splitInput(normalizedInput);
+        String command = splits[0];
+        String rest = splits[1];
 
-        switch (command) {
-        case "list": {
-            ArrayList<Task> tasks = sun.getTasks().listTasks(false);
+        try {
+            switch (command) {
+            case "list":
+                return taskListString(sun.getTasks().listTasks());
 
-            if (tasks.isEmpty()) {
-                return "There are no tasks yet.";
-            }
-
-            StringBuilder builder = new StringBuilder("Here are the tasks in your list:\n");
-            for (int i = 0; i < tasks.size(); i++) {
-                builder.append(String.format("%d. %s\n", i + 1, tasks.get(i)));
-            }
-
-            return builder.toString();
-        }
-
-        case "mark": {
-            try {
-                Task targetTask = sun.getTasks().mark(rest, true, false);
-                sun.getStorage().save(sun.getTasks());
-                return String.format("Nice! I've marked this task as done:\n%s", targetTask);
-            } catch (InvalidTaskNumberException | IOException e) {
-                return e.getMessage();
-            }
-        }
-
-        case "unmark": {
-            try {
-                Task targetTask = sun.getTasks().mark(rest, false, false);
-                sun.getStorage().save(sun.getTasks());
-                return String.format("OK, I've marked this task as not done yet:\n%s", targetTask);
-            } catch (InvalidTaskNumberException | IOException e) {
-                return e.getMessage();
-            }
-        }
-
-        case "todo": {
-            try {
-                Task todoTask = sun.getTasks().addTodo(rest, false);
+            case "mark":
+                Task markTask = sun.getTasks().mark(rest, false);
                 sun.getStorage().save(sun.getTasks());
 
-                return printTaskAdded(todoTask);
-            } catch (InvalidTodoException | IOException e) {
-                return e.getMessage();
-            }
-        }
+                return taskMarkedString(markTask, true);
 
-        case "deadline": {
-            try {
-                Task deadLineTask = sun.getTasks().addDeadline(rest, false);
+            case "unmark":
+                Task unmarkTask = sun.getTasks().mark(rest, false);
                 sun.getStorage().save(sun.getTasks());
-                return printTaskAdded(deadLineTask);
-            } catch (InvalidDeadlineException | IOException e) {
-                return e.getMessage();
-            }
-        }
+                return taskMarkedString(unmarkTask, false);
 
-        case "event": {
-            try {
-                Task eventTask = sun.getTasks().addEvent(rest, false);
+            case "todo":
+                Task todoTask = sun.getTasks().addTodo(rest);
                 sun.getStorage().save(sun.getTasks());
-                return printTaskAdded(eventTask);
-            } catch (InvalidEventException | IOException e) {
-                return e.getMessage();
-            }
-        }
+                return taskAddedString(todoTask);
 
-        case "delete": {
-            try {
-                Task targetTask = sun.getTasks().delete(rest, false);
+            case "deadline":
+                Task deadlineTask = sun.getTasks().addDeadline(rest);
                 sun.getStorage().save(sun.getTasks());
-                return String.format("""
-                                Noted. I've removed this task:
-                                %s
-                                Now you have %d tasks in the list.
-                                """,
-                        targetTask,
-                        sun.getTasks().sizeTasks());
-            } catch (InvalidTaskNumberException | IOException e) {
-                return e.getMessage();
+                return taskAddedString(deadlineTask);
+
+            case "event":
+                Task eventTask = sun.getTasks().addEvent(rest);
+                sun.getStorage().save(sun.getTasks());
+                return taskAddedString(eventTask);
+
+            case "delete":
+                Task deleteTask = sun.getTasks().delete(rest);
+                sun.getStorage().save(sun.getTasks());
+                return taskDeleteString(deleteTask);
+
+            case "find":
+                return taskFoundString(sun.getTasks().find(rest));
+
+            case "bye":
+                return "BYE_SIGNAL";
+
+            default:
+                return "OOPS!!! I'm sorry, but I don't know what that command means :-(";
             }
-        }
-
-        case "find": {
-            try {
-                ArrayList<Task> matches = sun.getTasks().find(rest, false);
-                if (matches.isEmpty()) {
-                    return "No matching tasks found.";
-                }
-
-                StringBuilder builder = new StringBuilder("Here are the matching tasks in your list:\n");
-                for (int i = 0; i < matches.size(); i++) {
-                    builder.append(String.format("%d. %s\n", i + 1, matches.get(i)));
-                }
-
-                return builder.toString();
-            } catch (InvalidFindException e) {
-                return e.getMessage();
-            }
-        }
-
-        case "bye": {
-            return "BYE_SIGNAL";
-        }
-
-        default: {
-            return "OOPS!!! I'm sorry, but I don't know what that command means :-(";
-        }
+        } catch (InvalidTodoException | InvalidDeadlineException | InvalidEventException |
+                 InvalidTaskNumberException | InvalidFindException | IOException e) {
+            return e.getMessage();
         }
     }
 
@@ -144,14 +84,56 @@ public class SunBackend {
 
 
     // Helper Method
-    public String printTaskAdded(Task task) {
+    private String taskListString(ArrayList<Task> tasks) {
+        if (tasks.isEmpty()) {
+            return "There are no tasks yet.";
+        }
+        StringBuilder builder = new StringBuilder("Here are the tasks in your list:\n");
+        for (int i = 0; i < tasks.size(); i++) {
+            builder.append(String.format("%d. %s\n", i + 1, tasks.get(i)));
+        }
+        return builder.toString();
+    }
+
+    // Helper Method
+    private String taskMarkedString(Task task, boolean isDone) {
+        String status = isDone
+                ? "Nice! I've marked this task as done:"
+                : "OK, I've marked this task as not done yet:";
+        return String.format("""
+                %s
+                %s
+                """, status, task);
+    }
+
+    // Helper Method
+    public String taskAddedString(Task task) {
         return String.format("""
                                 Noted. I've added this task:
                                 %s
                                 Now you have %d tasks in the list.
-                                """,
-                task,
-                sun.getTasks().sizeTasks());
+                                """, task, sun.getTasks().size());
+    }
+
+    // Helper Method
+    private String taskDeleteString(Task task) {
+        return String.format("""
+                Noted. I've removed this task:
+                %s
+                Now you have %d tasks in the list.
+                """, task, sun.getTasks().size());
+    }
+
+    // Helper Method
+    private String taskFoundString(ArrayList<Task> matches) {
+        if (matches.isEmpty()) {
+            return "No matching tasks found.";
+        }
+        StringBuilder builder = new StringBuilder("Here are the matching tasks in your list:\n");
+        for (int i = 0; i < matches.size(); i++) {
+            builder.append(String.format("%d. %s\n", i + 1, matches.get(i)));
+        }
+        return builder.toString();
     }
 }
 

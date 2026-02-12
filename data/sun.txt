@@ -1,3 +1,4 @@
-D | 1 | bake | Feb 01 2026 0000
 D | 0 | type | Jan 03 2026 0000
 E | 0 | cleaning | Feb 06 2026 1900 | Feb 06 2026 2000
+T | 1 | car
+T | 1 | getter

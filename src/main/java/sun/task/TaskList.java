@@ -6,7 +6,6 @@ import sun.exception.InvalidTodoException;
 import sun.exception.InvalidDeadlineException;
 import sun.exception.InvalidEventException;
 import sun.parser.DateTimeParser;
-import sun.ui.Ui;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -14,7 +13,6 @@ import java.util.ArrayList;
 
 public class TaskList {
     private ArrayList<Task> tasks;
-    private Ui ui = new Ui();
 
     public TaskList() {
         this.tasks = new ArrayList<>();
@@ -26,7 +24,7 @@ public class TaskList {
         this.tasks = task;
     }
 
-    public int sizeTasks() {
+    public int size() {
         return this.tasks.size();
     }
 
@@ -34,60 +32,42 @@ public class TaskList {
         return this.tasks;
     }
 
-    public ArrayList<Task> listTasks(boolean printOutput) {
+    public ArrayList<Task> listTasks() {
         ArrayList<Task> allTasks = this.tasks;
-
-        if (printOutput) {
-            if (allTasks.isEmpty()) {
-                ui.printLine("There are no tasks yet.");
-            } else {
-                printTaskList(allTasks);
-            }
-        }
 
         return allTasks;
     }
 
-    public Task mark(String rest, boolean isDone, boolean printOutput)
+    public Task mark(String rest, boolean isDone)
             throws InvalidTaskNumberException {
         int index = this.parseTaskNumber(rest);
-        Task targetTask = tasks.get(index);
-        assert index >= 0 && index < this.sizeTasks() : "Parsed task index should be valid";
+        assert index >= 0 && index < this.size() : "Parsed task index should be valid";
 
         Task targetTask = tasks.get(index);
         assert targetTask != null : "Target task should exist";
 
         targetTask.setIsDone(isDone);
 
-        if (printOutput) {
-            ui.printLine(getMarkMessage(isDone));
-            ui.printLine(targetTask.toString());
-        }
-
         return targetTask;
     }
 
-    public Task addTodo(String rest, boolean printOutput)
+    public Task addTodo(String rest)
             throws InvalidTodoException {
         if (rest.isEmpty()) {
             throw new InvalidTodoException("OOPS!!! The description of a todo cannot be empty.");
         }
 
-        int oldSize = this.sizeTasks();
+        int oldSize = this.size();
 
         Task todoTask = new Todo(rest);
         tasks.add(todoTask);
 
-        assert this.sizeTasks() == oldSize + 1 : "Task list should increase by 1 after adding a todo task";
-
-        if (printOutput) {
-            printTaskAdded(todoTask);
-        }
+        assert this.size() == oldSize + 1 : "Task list should increase by 1 after adding a todo task";
 
         return todoTask;
     }
 
-    public Task addDeadline(String rest, boolean printOutput)
+    public Task addDeadline(String rest)
             throws InvalidDeadlineException {
         String[] parts = rest.split(" /by ", 2);
 
@@ -101,14 +81,10 @@ public class TaskList {
         Task deadlineTask = new Deadline(description, byDateTime);
         tasks.add(deadlineTask);
 
-        if (printOutput) {
-            printTaskAdded(deadlineTask);
-        }
-
         return deadlineTask;
     }
 
-    public Task addEvent(String rest, boolean printOutput)
+    public Task addEvent(String rest)
             throws InvalidEventException {
         String[] descriptionSplit = rest.split(" /from ", 2);
         validateEventDescription(descriptionSplit);
@@ -127,31 +103,23 @@ public class TaskList {
         Task eventTask = new Event(description, fromDateTime, toDateTime);
         tasks.add(eventTask);
 
-        if (printOutput) {
-            printTaskAdded(eventTask);
-        }
-
         return eventTask;
     }
 
-    public Task delete(String rest, boolean printOutput)
+    public Task delete(String rest)
             throws InvalidTaskNumberException {
-        int oldSize = this.sizeTasks();
+        int oldSize = this.size();
 
         int index = this.parseTaskNumber(rest);
         Task targetTask = tasks.get(index);
         tasks.remove(index);
 
-        assert this.sizeTasks() == oldSize - 1 : "Task list size should decrease by 1 after deletion";
-
-        if (printOutput) {
-            printTaskRemoved(targetTask);
-        }
+        assert this.size() == oldSize - 1 : "Task list size should decrease by 1 after deletion";
 
         return targetTask;
     }
 
-    public ArrayList<Task> find(String rest, boolean printOutput)
+    public ArrayList<Task> find(String rest)
             throws InvalidFindException {
         if (rest.isEmpty()) {
             throw new InvalidFindException("OOPS!!! Please provide task to find.");
@@ -161,14 +129,6 @@ public class TaskList {
         for (Task task : this.tasks) {
             if (task.getDescription().toLowerCase().contains(rest.toLowerCase())) {
                 matches.add(task);
-            }
-        }
-
-        if (printOutput) {
-            if (matches.isEmpty()) {
-                ui.printLine("No matching tasks found.");
-            } else {
-                printFoundTaskList(matches);
             }
         }
 
@@ -203,29 +163,6 @@ public class TaskList {
     }
 
     //Helper method
-    private void printTaskAdded(Task task) {
-        ui.printLine("Got it. I've added this task:");
-        ui.printLine(task.toString());
-        ui.printLine("Now you have " + tasks.size() + " tasks in the list.");
-    }
-
-    //Helper method
-    private void printTaskList(ArrayList<Task> allTasks) {
-        ui.printLine("Here are the tasks in your list:");
-        for (int i = 0; i < allTasks.size(); i++) {
-            ui.printLine(String.format("%d. %s", i + 1, allTasks.get(i)));
-        }
-    }
-
-    //Helper method
-    private void printFoundTaskList(ArrayList<Task> allTasks) {
-        ui.printLine("Here are the matching tasks in your list:");
-        for (int i = 0; i < allTasks.size(); i++) {
-            ui.printLine(String.format("%d. %s", i + 1, allTasks.get(i)));
-        }
-    }
-
-    //Helper method
     private void validateEventDescription(String[] parts)
             throws InvalidEventException {
         if (parts.length < 2 || parts[0].isEmpty() || parts[1].isEmpty()) {
@@ -250,22 +187,4 @@ public class TaskList {
                     "OOPS!!! The description or due date of a deadline cannot be empty.");
         }
     }
-
-    //Helper method
-    private String getMarkMessage(boolean isDone) {
-        return isDone
-                ? "Nice! I've marked this task as done:"
-                : "OK, I've marked this task as not done yet:";
-    }
-
-    //Helper method
-    private void printTaskRemoved(Task targetTask) {
-        ui.printLine("Noted. I've removed this task:");
-        ui.printLine(targetTask.toString());
-        ui.printLine(String.format("Now you have %d tasks left", tasks.size()));
-    }
-
-
-
-
 }
