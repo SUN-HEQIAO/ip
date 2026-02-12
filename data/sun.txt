@@ -1,3 +1,2 @@
 E | 0 | cleaning | Feb 06 2026 1900 | Feb 06 2026 2000
 T | 1 | car
-T | 1 | getter

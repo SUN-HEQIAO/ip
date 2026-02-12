@@ -63,10 +63,15 @@ public class SunGui {
             case "delete":
                 Task deleteTask = sun.getTasks().delete(rest);
                 sun.getStorage().save(sun.getTasks());
-                return taskDeleteString(deleteTask);
+                return taskRemoveString(deleteTask);
 
             case "find":
                 return taskFoundString(sun.getTasks().find(rest));
+
+            case "undo":
+                Task undoTask = sun.getTasks().undo();
+                sun.getStorage().save(sun.getTasks());
+                return taskRemoveString(undoTask);
 
             case "bye":
                 return "BYE_SIGNAL";
@@ -75,7 +80,8 @@ public class SunGui {
                 return "OOPS!!! I'm sorry, but I don't know what that command means :-(";
             }
         } catch (InvalidTodoException | InvalidDeadlineException | InvalidEventException |
-                 InvalidTaskNumberException | InvalidFindException | IOException e) {
+                 InvalidTaskNumberException | InvalidFindException | IOException |
+                 IllegalStateException e) {
             return e.getMessage();
         }
     }
@@ -116,7 +122,7 @@ public class SunGui {
     }
 
     // Helper Method
-    private String taskDeleteString(Task task) {
+    private String taskRemoveString(Task task) {
         return String.format("""
                 Noted. I've removed this task:
                 %s

@@ -122,12 +122,20 @@ public class SunCli {
 
                     break;
 
+                case "undo":
+                    Task undoTask = sun.getTasks().undo();
+                    sun.getStorage().save(sun.getTasks());
+
+                    ui.printTaskRemoved(undoTask, sun.getTasks().size());
+
+                    break;
+
                 default:
                     throw new InvalidCommandException("OOPS!!! I'm sorry, but I don't know what that command means :-(");
                 }
             } catch (InvalidCommandException | InvalidTaskNumberException | InvalidTodoException |
                      InvalidDeadlineException | InvalidEventException | IOException |
-                     IllegalArgumentException | InvalidFindException e) {
+                     IllegalArgumentException | InvalidFindException | IllegalStateException e) {
                 ui.printError(e.getMessage());
             }
         }

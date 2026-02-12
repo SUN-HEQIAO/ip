@@ -135,6 +135,19 @@ public class TaskList {
         return matches;
     }
 
+    public Task undo()
+            throws IllegalStateException{
+        if (this.tasks.isEmpty()) {
+            throw new IllegalStateException("No tasks to undo.");
+        }
+
+        int lastIndex = this.tasks.size() - 1;
+        Task undoTask = this.tasks.get(lastIndex);
+        this.tasks.remove(lastIndex);
+
+        return undoTask;
+    }
+
 
 
 
