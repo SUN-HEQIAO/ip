@@ -48,6 +48,10 @@ public abstract class Task {
         return this.isDone ? "X" : " ";
     }
 
+    public boolean getIsDone() {
+        return this.isDone;
+    }
+
     /**
      * Sets the completion status of the task.
      *
@@ -130,4 +134,6 @@ public abstract class Task {
             throw new IllegalArgumentException(String.format("OOPS!!! Unknown task type: %s", type));
         }
     }
+
+    public abstract Task clone();
 }

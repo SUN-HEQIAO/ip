@@ -63,4 +63,11 @@ public class Event extends Task {
         return String.format("E | %d | %s | %s | %s", this.getIsDoneAsX().equals("X") ? 1 : 0, this.getDescription(),
                 this.from.format(OUTPUT_FORMAT), this.to.format(OUTPUT_FORMAT));
     }
+
+    @Override
+    public Task clone() {
+        Event copy = new Event(this.getDescription(), this.from, this.to);
+        copy.setIsDone(this.getIsDone());
+        return copy;
+    }
 }

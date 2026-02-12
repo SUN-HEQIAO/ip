@@ -42,4 +42,12 @@ public class Todo extends Task {
     public String toFileString() {
         return String.format("T | %d | %s", this.getIsDoneAsX().equals("X") ? 1 : 0, this.getDescription());
     }
+
+    @Override
+    public Task clone() {
+        Todo copy = new Todo(this.getDescription());
+        copy.setIsDone(this.getIsDone());
+        return copy;
+    }
+
 }

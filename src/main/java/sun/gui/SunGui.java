@@ -35,9 +35,8 @@ public class SunGui {
                 return taskListString(sun.getTasks().listTasks());
 
             case "mark":
-                Task markTask = sun.getTasks().mark(rest, false);
+                Task markTask = sun.getTasks().mark(rest, true);
                 sun.getStorage().save(sun.getTasks());
-
                 return taskMarkedString(markTask, true);
 
             case "unmark":
@@ -69,9 +68,9 @@ public class SunGui {
                 return taskFoundString(sun.getTasks().find(rest));
 
             case "undo":
-                Task undoTask = sun.getTasks().undo();
+                sun.getTasks().undo();
                 sun.getStorage().save(sun.getTasks());
-                return taskRemoveString(undoTask);
+                return "Undo Success!";
 
             case "bye":
                 return "BYE_SIGNAL";

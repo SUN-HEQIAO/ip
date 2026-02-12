@@ -59,4 +59,10 @@ public class Deadline extends Task {
                 this.by.format(OUTPUT_FORMAT));
     }
 
+    @Override
+    public Task clone() {
+        Deadline copy = new Deadline(this.getDescription(), this.by);
+        copy.setIsDone(this.getIsDone());
+        return copy;
+    }
 }

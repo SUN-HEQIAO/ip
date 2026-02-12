@@ -9,19 +9,24 @@ import sun.parser.DateTimeParser;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Stack;
 
 
 public class TaskList {
     private ArrayList<Task> tasks;
+    private Stack<ArrayList<Task>> history;
 
     public TaskList() {
         this.tasks = new ArrayList<>();
         assert this.tasks != null : "Task list should be initialised";
+
+        this.history = new Stack<>();
     }
 
     public TaskList(ArrayList<Task> task) {
         assert task != null : "Task list passed in should not be null";
         this.tasks = task;
+        this.history = new Stack<>();
     }
 
     public int size() {
@@ -46,6 +51,8 @@ public class TaskList {
         Task targetTask = tasks.get(index);
         assert targetTask != null : "Target task should exist";
 
+        saveState();
+
         targetTask.setIsDone(isDone);
 
         return targetTask;
@@ -58,6 +65,8 @@ public class TaskList {
         }
 
         int oldSize = this.size();
+
+        saveState();
 
         Task todoTask = new Todo(rest);
         tasks.add(todoTask);
@@ -77,6 +86,8 @@ public class TaskList {
         String by = parts[1];
 
         LocalDateTime byDateTime = DateTimeParser.parseDateTime(by);
+
+        saveState();
 
         Task deadlineTask = new Deadline(description, byDateTime);
         tasks.add(deadlineTask);
@@ -100,6 +111,8 @@ public class TaskList {
         LocalDateTime fromDateTime = DateTimeParser.parseDateTime(from);
         LocalDateTime toDateTime = DateTimeParser.parseDateTime(to);
 
+        saveState();
+
         Task eventTask = new Event(description, fromDateTime, toDateTime);
         tasks.add(eventTask);
 
@@ -112,6 +125,9 @@ public class TaskList {
 
         int index = this.parseTaskNumber(rest);
         Task targetTask = tasks.get(index);
+
+        saveState();
+
         tasks.remove(index);
 
         assert this.size() == oldSize - 1 : "Task list size should decrease by 1 after deletion";
@@ -135,17 +151,13 @@ public class TaskList {
         return matches;
     }
 
-    public Task undo()
+    public void undo()
             throws IllegalStateException{
-        if (this.tasks.isEmpty()) {
-            throw new IllegalStateException("No tasks to undo.");
+        if (history.isEmpty()) {
+            throw new IllegalStateException("Nothing to undo.");
         }
 
-        int lastIndex = this.tasks.size() - 1;
-        Task undoTask = this.tasks.get(lastIndex);
-        this.tasks.remove(lastIndex);
-
-        return undoTask;
+        this.tasks = history.pop();
     }
 
 
@@ -199,5 +211,16 @@ public class TaskList {
             throw new InvalidDeadlineException(
                     "OOPS!!! The description or due date of a deadline cannot be empty.");
         }
+    }
+
+    //Helper method
+    private void saveState() {
+        // Deep Copy
+        ArrayList<Task> snapshot = new ArrayList<>();
+        for (Task task : this.tasks) {
+            snapshot.add(task.clone());
+        }
+        //You push a NEW ArrayList BASED ON the old ArrayList
+        history.push(snapshot);
     }
 }

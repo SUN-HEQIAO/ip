@@ -75,7 +75,7 @@ public class SunCli {
                     Task unmarkTask = sun.getTasks().mark(rest, false);
                     sun.getStorage().save(sun.getTasks());
 
-                    ui.printMarkedMessage(unmarkTask, true);
+                    ui.printMarkedMessage(unmarkTask, false);
 
                     break;
 
@@ -123,10 +123,10 @@ public class SunCli {
                     break;
 
                 case "undo":
-                    Task undoTask = sun.getTasks().undo();
+                    sun.getTasks().undo();
                     sun.getStorage().save(sun.getTasks());
 
-                    ui.printTaskRemoved(undoTask, sun.getTasks().size());
+                    ui.printLine("Undo Success!");
 
                     break;
 
