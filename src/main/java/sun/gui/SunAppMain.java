@@ -20,7 +20,7 @@ public class SunAppMain extends Application {
             AnchorPane root = fxmlLoader.load();
             Scene scene = new Scene(root);
 
-            // Inject backend into controller
+            // Inject sunGui into controller
             SunAppController controller = fxmlLoader.getController();
             controller.setSunGui(sunGui);
             controller.setStage(stage);

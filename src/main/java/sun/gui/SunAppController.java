@@ -31,10 +31,6 @@ public class SunAppController {
     private final Image userImage = new Image(getClass().getResourceAsStream("/images/User.png"));
     private final Image sunImage = new Image(getClass().getResourceAsStream("/images/Sun.png"));
 
-    public void setStage(Stage stage) {
-        this.stage = stage;
-    }
-
     @FXML
     public void initialize() {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
@@ -44,7 +40,11 @@ public class SunAppController {
         );
     }
 
-    /** Inject SunBackend from SunApp */
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
+
+    /** Inject SunGui from SunAppMain */
     public void setSunGui(SunGui sunGui) {
         this.sunGui = sunGui;
     }

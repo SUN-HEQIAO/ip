@@ -1,5 +1,3 @@
-// "SunBackend" holds a "Sun" instance BUT doesn’t run the CLI loop.
-
 package sun.gui;
 
 import java.io.IOException;
