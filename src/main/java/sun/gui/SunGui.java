@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import sun.Sun;
+import sun.exception.InvalidCommandException;
 import sun.exception.InvalidDeadlineException;
 import sun.exception.InvalidEventException;
 import sun.exception.InvalidFindException;
@@ -74,11 +75,11 @@ public class SunGui {
                 return "BYE_SIGNAL";
 
             default:
-                return "OOPS!!! I'm sorry, but I don't know what that command means :-(";
+                throw new InvalidCommandException("OOPS!!! I'm sorry, but I don't know what that command means :-(");
             }
         } catch (InvalidTodoException | InvalidDeadlineException | InvalidEventException |
                  InvalidTaskNumberException | InvalidFindException | IOException |
-                 IllegalStateException e) {
+                 IllegalStateException | IllegalArgumentException | InvalidCommandException e) {
             return e.getMessage();
         }
     }
