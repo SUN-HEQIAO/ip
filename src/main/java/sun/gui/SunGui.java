@@ -107,7 +107,6 @@ public class SunGui {
 
 
 
-
     // Helper Method
     /**
      * Formats a list of tasks into a numbered string for display.
