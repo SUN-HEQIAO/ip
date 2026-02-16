@@ -43,6 +43,13 @@ public class Todo extends Task {
         return String.format("T | %d | %s", this.getIsDoneAsX().equals("X") ? 1 : 0, this.getDescription());
     }
 
+    /**
+     * Creates and returns a copy of this todo task.
+     * <p>
+     * The cloned task preserves the description and completion status.
+     *
+     * @return A new {@code Todo} instance with the same state as this task.
+     */
     @Override
     public Task clone() {
         Todo copy = new Todo(this.getDescription());

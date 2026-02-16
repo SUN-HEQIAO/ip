@@ -59,6 +59,13 @@ public class Deadline extends Task {
                 this.by.format(OUTPUT_FORMAT));
     }
 
+    /**
+     * Creates and returns a copy of this deadline task.
+     * <p>
+     * The cloned task preserves the description, due date, and completion status.
+     *
+     * @return A new {@code Deadline} instance with the same state as this task.
+     */
     @Override
     public Task clone() {
         Deadline copy = new Deadline(this.getDescription(), this.by);

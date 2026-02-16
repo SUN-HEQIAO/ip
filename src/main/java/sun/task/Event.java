@@ -64,6 +64,13 @@ public class Event extends Task {
                 this.from.format(OUTPUT_FORMAT), this.to.format(OUTPUT_FORMAT));
     }
 
+    /**
+     * Creates and returns a copy of this event task.
+     * <p>
+     * The cloned task preserves the description, time range, and completion status.
+     *
+     * @return A new {@code Event} instance with the same state as this task.
+     */
     @Override
     public Task clone() {
         Event copy = new Event(this.getDescription(), this.from, this.to);

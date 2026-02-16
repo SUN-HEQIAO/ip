@@ -135,5 +135,13 @@ public abstract class Task {
         }
     }
 
+    /**
+     * Creates and returns a copy of this task.
+     * <p>
+     * Subclasses must implement this method to return a deep copy
+     * preserving all relevant task state.
+     *
+     * @return A new {@code Task} instance with the same state as this task.
+     */
     public abstract Task clone();
 }
