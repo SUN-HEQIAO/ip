@@ -17,6 +17,31 @@ Key features of Sun ChatBot:
 Sun ChatBot is designed for anyone who wants a **fast, friendly, and visual way** to keep their tasks organized.
 
 
+## Getting Started
+
+Follow these simple steps to begin using Sun ChatBot:
+
+1. **Download the application**
+    - Download the latest `sun.jar` file from [here](https://github.com/SUN-HEQIAO/ip/releases/tag/A-Release)
+    - Save it to a folder where you want to store your task data
+
+2. **Run the application**
+    - Ensure you have **Java 17** or above installed on your computer
+    - To check your Java version, open a terminal/command prompt and run: `java -version`
+
+   You can launch Sun ChatBot in two ways:
+
+   **Option A: Double-click the JAR file** (simplest)
+    - Navigate to the folder containing `sun.jar`
+    - Simply double-click the file to launch Sun ChatBot
+
+   **Option B: Use the terminal/command prompt**
+    - Open a terminal/command prompt in the folder containing `sun.jar`
+    - Run the command: `java -jar sun.jar`
+
+   The Sun ChatBot window will appear using either method.
+
+
 ## Adding Todo Tasks
 ![AddTodo.png](AddTodo.png)
 
