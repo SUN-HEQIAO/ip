@@ -130,6 +130,11 @@ public class SunCli {
 
                     break;
 
+                case "help":
+                    ui.printHelp();
+
+                    break;
+
                 default:
                     throw new InvalidCommandException("OOPS!!! I'm sorry, but I don't know what that command means :-(");
                 }

@@ -80,12 +80,24 @@ public class Ui {
         System.out.println("Bye. Hope to see you again soon!");
     }
 
+    /**
+     * Prints a confirmation message when a new task is successfully added.
+     *
+     * @param task The task that was added to the list
+     * @param totalTasks The updated total number of tasks in the list
+     */
     public void printTaskAdded(Task task, int totalTasks) {
         printLine("Got it. I've added this task:");
         printLine(task.toString());
         printLine("Now you have " + totalTasks + " tasks in the list.");
     }
 
+    /**
+     * Displays all tasks in the task list with their corresponding index numbers.
+     * Each task is shown in the format: "index. [task details]"
+     *
+     * @param tasks The ArrayList containing all tasks to be displayed
+     */
     public void printTaskList(ArrayList<Task> tasks) {
         printLine("Here are the tasks in your list:");
         for (int i = 0; i < tasks.size(); i++) {
@@ -93,6 +105,12 @@ public class Ui {
         }
     }
 
+    /**
+     * Displays the list of tasks that match a search query.
+     * Each matching task is shown with its index number from the filtered list.
+     *
+     * @param tasks The ArrayList containing tasks that matched the search criteria
+     */
     public void printFoundTaskList(ArrayList<Task> tasks) {
         printLine("Here are the matching tasks in your list:");
         for (int i = 0; i < tasks.size(); i++) {
@@ -100,14 +118,66 @@ public class Ui {
         }
     }
 
+    /**
+     * Prints a confirmation message when a task's completion status is toggled.
+     * The message varies based on whether the task was marked as done or not done.
+     *
+     * @param task The task whose status was changed
+     * @param isDone {@code true} if the task was marked as completed,
+     *               {@code false} if it was marked as not completed
+     */
     public void printMarkedMessage(Task task, boolean isDone) {
         printLine(isDone ? "Nice! I've marked this task as done:" : "OK, I've marked this task as not done yet:");
         printLine(task.toString());
     }
 
+    /**
+     * Prints a confirmation message when a task is successfully deleted from the list.
+     *
+     * @param targetTask The task that was removed from the list
+     * @param totalTasks The updated total number of tasks remaining in the list
+     */
     public void printTaskRemoved(Task targetTask, int totalTasks) {
         printLine("Noted. I've removed this task:");
         printLine(targetTask.toString());
         printLine(String.format("Now you have %d tasks left", totalTasks));
+    }
+
+    /**
+     * Displays the help menu containing all available commands and their usage.
+     * The help information is organized into categories:
+     * <ul>
+     *   <li>Adding tasks (todo, deadline, event) with date/time format specifications</li>
+     *   <li>Viewing tasks (list, find)</li>
+     *   <li>Managing tasks (mark, unmark, delete)</li>
+     *   <li>Other commands (undo, help, bye)</li>
+     * </ul>
+     */
+    public void printHelp() {
+        printLine(
+                """
+                Here are the available commands:
+                
+                1. Adding tasks:
+                   • todo <description>
+                   • deadline <description> /by <end time>
+                   • event <description> /from <start time> /to <end time>
+                   (Date/time formats: yyyy-MM-dd HHmm | yyyy-MM-dd | HHmm)
+                
+                2. Viewing tasks:
+                   • list
+                   • find <keyword>
+                
+                3. Managing tasks:
+                   • mark <task number>
+                   • unmark <task number>
+                   • delete <task number>
+                
+                4. Other commands:
+                   • undo
+                   • help
+                   • bye
+                """
+        );
     }
 }

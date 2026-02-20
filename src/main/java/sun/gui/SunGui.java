@@ -92,6 +92,9 @@ public class SunGui {
                 sun.getStorage().save(sun.getTasks());
                 return "Undo Success!";
 
+            case "help":
+                return helpString();
+
             case "bye":
                 return "BYE_SIGNAL";
 
@@ -199,6 +202,46 @@ public class SunGui {
             builder.append(String.format("%d. %s\n", i + 1, matches.get(i)));
         }
         return builder.toString();
+    }
+
+    // Helper method
+    /**
+     * Generates a help message containing all available commands and their formats.
+     * The help message is organized into categories:
+     * <ul>
+     *   <li>Adding tasks (todo, deadline, event)</li>
+     *   <li>Viewing tasks (list, find)</li>
+     *   <li>Managing tasks (mark, unmark, delete)</li>
+     *   <li>Other commands (undo, help, bye)</li>
+     * </ul>
+     *
+     * @return A formatted string containing the complete help information
+     *         with command categories and syntax.
+     */
+    private String helpString() {
+        return """
+            Here are the available commands:
+            
+            1. Adding tasks:
+               • todo <description>
+               • deadline <description> /by <end time>
+               • event <description> /from <start time> /to <end time>
+               (Date/time formats: yyyy-MM-dd HHmm | yyyy-MM-dd | HHmm)
+            
+            2. Viewing tasks:
+               • list
+               • find <keyword>
+            
+            3. Managing tasks:
+               • mark <task number>
+               • unmark <task number>
+               • delete <task number>
+            
+            4. Other commands:
+               • undo
+               • help
+               • bye
+            """;
     }
 }
 
