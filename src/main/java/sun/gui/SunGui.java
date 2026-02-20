@@ -223,24 +223,24 @@ public class SunGui {
             Here are the available commands:
             
             1. Adding tasks:
-               • todo <description>
-               • deadline <description> /by <end time>
-               • event <description> /from <start time> /to <end time>
+               * todo <description>
+               * deadline <description> /by <end time>
+               * event <description> /from <start time> /to <end time>
                (Date/time formats: yyyy-MM-dd HHmm | yyyy-MM-dd | HHmm)
             
             2. Viewing tasks:
-               • list
-               • find <keyword>
+               * list
+               * find <keyword>
             
             3. Managing tasks:
-               • mark <task number>
-               • unmark <task number>
-               • delete <task number>
+               * mark <task number>
+               * unmark <task number>
+               * delete <task number>
             
             4. Other commands:
-               • undo
-               • help
-               • bye
+               * undo
+               * help
+               * bye
             """;
     }
 }

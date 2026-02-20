@@ -213,24 +213,24 @@ After entering the command, a list of executable commands will be displayed:
 Here are the available commands:
 
 Adding tasks:
-• todo <description>
-• deadline <description> /by <end time>
-• event <description> /from <start time> /to <end time>
+* todo <description>
+* deadline <description> /by <end time>
+* event <description> /from <start time> /to <end time>
 (Date/time formats: yyyy-MM-dd HHmm | yyyy-MM-dd | HHmm)
 
 Viewing tasks:
-• list
-• find <keyword>
+* list
+* find <keyword>
 
 Managing tasks:
-• mark <task number>
-• unmark <task number>
-• delete <task number>
+* mark <task number>
+* unmark <task number>
+* delete <task number>
 
 Other commands:
-• undo
-• help
-• bye
+* undo
+* help
+* bye
 ```
 
 
