@@ -24,9 +24,11 @@ Follow these simple steps to begin using Sun ChatBot:
     - Download the latest `sun.jar` file from [here](https://github.com/SUN-HEQIAO/ip/releases/tag/A-Release)
     - Save it to a folder where you want to store your task data
 
-2. **Run the application**
+2. **Install Java**
     - Ensure you have **Java 17** or above installed on your computer
     - To check your Java version, open a terminal/command prompt and run: `java -version`
+
+3. **Launch the ChatBot**
 
    You can launch Sun ChatBot in two ways:
 
