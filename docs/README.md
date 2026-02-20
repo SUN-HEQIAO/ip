@@ -12,7 +12,8 @@ Key features of Sun ChatBot:
 - **Delete tasks**: [Remove tasks](#deleting-tasks) when they are no longer relevant.
 - **Undo actions**: [Undo mistakenly managed task](#undoing-actions).
 - **Find tasks**: [Search for specific tasks](#finding-tasks) by keywords.
-
+- **Help command**: [View all executable commands](#help-command) anytime.
+- 
 Sun ChatBot is designed for anyone who wants a **fast, friendly, and visual way** to keep their tasks organized.
 
 
@@ -196,6 +197,40 @@ After entering the command, the matching tasks will be displayed.
 ```
 Here are the matching tasks in your list:
 1. [T][ ] read book
+```
+
+
+## Help Command
+![HelpCommand.png](Help.png)
+
+The **Help** feature allows you to view all executable commands directly in the chat window.  
+This is useful if you forget the command formats and want a quick reference without leaving the application to refer to the User Guide.
+
+Example: `help`
+
+After entering the command, a list of executable commands will be displayed:
+```
+Here are the available commands:
+
+Adding tasks:
+• todo <description>
+• deadline <description> /by <end time>
+• event <description> /from <start time> /to <end time>
+(Date/time formats: yyyy-MM-dd HHmm | yyyy-MM-dd | HHmm)
+
+Viewing tasks:
+• list
+• find <keyword>
+
+Managing tasks:
+• mark <task number>
+• unmark <task number>
+• delete <task number>
+
+Other commands:
+• undo
+• help
+• bye
 ```
 
 

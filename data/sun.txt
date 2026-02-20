@@ -4,3 +4,4 @@ E | 0 | team meeting | Feb 20 2026 1400 | Feb 20 2026 1600
 D | 0 | haha | Jan 01 2026 0000
 D | 0 | hshs | Feb 16 2026 1500
 D | 0 | haha | Feb 16 2026 2026
+D | 0 | wash | Dec 31 2026 1200
