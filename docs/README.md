@@ -6,13 +6,12 @@
 Sun ChatBot is a smart and interactive **task manager** that helps you organize your tasks, deadlines, and events effortlessly. 
 
 Key features of Sun ChatBot:
-- **Add tasks**: Create todos, deadlines, or events quickly.
-- **Mark/Unmark tasks**: Designate tasks as completed or pending tasks.
-- **Task overview**: View all your tasks in an organized list.
-- **Delete tasks**: Remove tasks when they are no longer relevant.
-- **Undo actions**: Undo mistakenly managed task.
-- **Find tasks**: Search for specific tasks by keywords.
-
+- **Add tasks**: Create [todos](#adding-todo-tasks), [deadlines](#adding-deadline-tasks), or [events](#adding-event-tasks) quickly.
+- **Mark/Unmark tasks**: Designate tasks as [completed or pending](#marking--unmarking-tasks) tasks.
+- **Task overview**: [View all your tasks](#listing-tasks) in an organized list.
+- **Delete tasks**: [Remove tasks](#deleting-tasks) when they are no longer relevant.
+- **Undo actions**: [Undo mistakenly managed task](#undoing-actions).
+- **Find tasks**: [Search for specific tasks](#finding-tasks) by keywords.
 
 Sun ChatBot is designed for anyone who wants a **fast, friendly, and visual way** to keep their tasks organized.
 
