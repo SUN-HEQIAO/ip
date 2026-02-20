@@ -13,7 +13,7 @@ Key features of Sun ChatBot:
 - **Undo actions**: [Undo mistakenly managed task](#undoing-actions).
 - **Find tasks**: [Search for specific tasks](#finding-tasks) by keywords.
 - **Help command**: [View all executable commands](#help-command) anytime.
-- 
+
 Sun ChatBot is designed for anyone who wants a **fast, friendly, and visual way** to keep their tasks organized.
 
 

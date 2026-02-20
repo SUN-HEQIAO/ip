@@ -36,7 +36,16 @@ public class SunAppController {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
 
         dialogContainer.getChildren().add(
-                DialogBox.getSunDialog("Hello! I'm Sun.\nWhat can I do for you?", sunImage)
+                DialogBox.getSunDialog(
+                        """
+                        Hello! I'm Sun.
+                        What can I do for you?
+                        
+                        Psst... need help getting started?
+                        Type "help".
+                        """,
+                        sunImage
+                )
         );
     }
 
