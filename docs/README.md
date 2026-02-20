@@ -19,6 +19,7 @@ Sun ChatBot is designed for anyone who wants a **fast, friendly, and visual way*
 
 ## Adding Todo Tasks
 ![AddTodo.png](AddTodo.png)
+
 The **Todo** feature allows you to quickly add a task that you want to complete, without specifying a deadline or event time.
 
 This is useful for general tasks, reminders, or things you want to track.
