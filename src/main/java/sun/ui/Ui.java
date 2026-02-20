@@ -38,8 +38,11 @@ public class Ui {
      * Displays a greeting and asks the user for input.
      */
     public void printWelcome() {
-        System.out.println("Hello! I'm Sun.");
-        System.out.println("What can I do for you?");
+        printLine("Hello! I'm Sun.");
+        printLine("What can I do for you?");
+        printLine("");
+        printLine("Psst... need help getting started?");
+        printLine("Type \"help\".");
     }
 
     /**
