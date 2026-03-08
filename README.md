@@ -1,4 +1,4 @@
-# Sun Chatbot – Your Personal Task Manager
+# Sun ChatBot – Your Personal Task Manager
 
 > “Never leave that till tomorrow which you can do today.” – Benjamin Franklin ([source](https://www.brainyquote.com/quotes/benjamin_franklin_151632))
 
