@@ -32,10 +32,10 @@ And yes – it’s **completely FREE**!
 For Java programmers, you can even use Sun to **practice coding**. Here's the main method:
 
 ```java
-public class Main {
+public class SunAppLauncher {
     public static void main(String[] args) {
-        // Start the CLI
-        new SunCli("./data/sun.txt").run();
+        // Launch the JavaFX application
+        Application.launch(SunAppMain.class, args);
     }
 }
 
